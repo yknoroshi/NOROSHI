@@ -321,9 +321,9 @@ const features = [
   },
   {
     icon: Radio,
-    title: "リアルタイム参集",
+    title: "参集状況",
     description:
-      "誰が応答し、誰が向かっているか。参集状況をリアルタイムで全員が把握できる。",
+      "誰が来るか、あと何人か。応答状況と位置情報がリアルタイムで共有される。参集中も活動中も、全員の動きが見える。",
     image: FEATURE_REALTIME,
     accent: "from-[#FF9F0A] to-[#FF453A]",
   },
@@ -331,7 +331,7 @@ const features = [
     icon: MapPin,
     title: "水利マップ",
     description:
-      "GPS精度で水利を登録。隣の分団の水利情報も見える。全国の消防団員と水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
+      "消火栓・防火水槽をピンポイントで登録。隣の分団の水利も見える。全国の消防団員で水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
     image: FEATURE_MAP,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
@@ -339,7 +339,7 @@ const features = [
     icon: TriangleAlert,
     title: "ハザードマップ",
     description:
-      "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動判断を支援。",
+      "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
     image: FEATURE_HAZARD,
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
@@ -366,11 +366,9 @@ function FeaturesSection() {
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              出動の3分間で、勝負は決まる。
+              サイレンが鳴った。あなたの分団は何人集まる？
             </h2>
             <p className="text-[16px] text-[#666] max-w-[520px] mx-auto">
-              深夜の火災で、あなたの分団は何人集まる？
-              <br />
               NOROSHIは、その答えを変えるために作られた。
             </p>
           </div>
@@ -423,7 +421,7 @@ function StatsSection() {
             {[
               { value: "4段階", label: "応答があるまで、通知＋架電をエスカレーション" },
               { value: "150人", label: "ボタンひとつで、最大150人に同時架電" },
-              { value: "10秒", label: "招集発信から全員の電話が鳴るまで" },
+              { value: "10秒", label: "ボタンを押してから全員の電話が鳴るまで" },
               { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
               <div key={stat.value}>
@@ -509,7 +507,7 @@ function PricingSection() {
               現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              招集の受信・応答はずっと無料。必要に応じてアップグレード。
+              受ける側は無料。必要に応じてアップグレード。
             </p>
           </div>
         </FadeIn>
@@ -660,7 +658,7 @@ function CTASection() {
             次の出動から変える。
           </h2>
           <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
-            招集、水利、活動記録。すべてを、ひとつに。
+            招集、水利、活動支援。すべてを、ひとつに。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
