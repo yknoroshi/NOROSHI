@@ -3,6 +3,7 @@
  * Design: Dark-native, minimal, zero ornament
  * Palette: #0A0A0A bg, #E5E5E5 text, flame gradient (#FF453A → #FF9F0A) accent
  * Typography: system-ui + Noto Sans JP, tight letter-spacing on headings
+ * Tone: Tactical × Professional — speak to the field, not the boardroom
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -16,9 +17,7 @@ import {
   Bell,
   ChevronRight,
   Smartphone,
-  Zap,
   Check,
-  Monitor,
   Shield,
   Lock,
   MapPinOff,
@@ -26,7 +25,6 @@ import {
   Menu,
   X,
   TriangleAlert,
-  BellRing,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -75,7 +73,6 @@ function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // モバイルメニュー開閉時にスクロールを制御
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = "hidden";
@@ -132,7 +129,6 @@ function Header() {
               はじめる
               <ChevronRight className="w-3.5 h-3.5" />
             </a>
-            {/* Mobile hamburger */}
             <button
               className="md:hidden p-2 text-[#A8A8A8] hover:text-white transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -161,7 +157,7 @@ function Header() {
               transition={{ duration: 0.3, delay: 0.05 }}
               className="flex flex-col items-center gap-1 px-6 py-8"
             >
-              {navItems.map((item, i) => {
+              {navItems.map((item) => {
                 const inner = (
                   <span className="block w-full text-center text-[18px] text-[#E5E5E5] py-4 border-b border-white/[0.04] hover:text-white transition-colors">
                     {item.label}
@@ -240,11 +236,12 @@ function HeroSection() {
           transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-10"
         >
-          狼煙のように、確実に届ける。
+          深夜3時のLINE、誰も見てない。
           <br className="hidden sm:block" />
-          消防団の招集を変える。
+          NOROSHIは架電で全員を叩き起こす。
         </motion.p>
 
+        {/* CTA hierarchy: Primary (X link) > Secondary (機能を見る) > Tertiary (Webで使う) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -266,21 +263,9 @@ function HeroSection() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
             >
-              <BellRing className="w-4 h-4" />
-              公開時に通知を受け取る
+              まもなく公開 — Xで最新情報を受け取る
             </a>
           )}
-          <button
-            onClick={() => {
-              toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
-                duration: 4000,
-              });
-            }}
-            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
-          >
-            <Monitor className="w-4 h-4" />
-            Webで使う
-          </button>
           <a
             href="#features"
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
@@ -288,6 +273,25 @@ function HeroSection() {
             機能を見る
             <ChevronRight className="w-4 h-4" />
           </a>
+        </motion.div>
+
+        {/* Tertiary: Web版テキストリンク */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.55 }}
+          className="mt-5"
+        >
+          <button
+            onClick={() => {
+              toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
+                duration: 4000,
+              });
+            }}
+            className="text-[13px] text-[#666] hover:text-[#A8A8A8] transition-colors underline underline-offset-4 decoration-[#444]"
+          >
+            Web版で使う
+          </button>
         </motion.div>
       </div>
 
@@ -351,10 +355,10 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-32 relative">
+    <section id="features" className="py-20 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
-          <div className="text-center mb-20">
+          <div className="text-center mb-14">
             <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
               機能
             </span>
@@ -362,17 +366,19 @@ function FeaturesSection() {
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              必要な機能を、必要なだけ。
+              出動の3分間で、勝負は決まる。
             </h2>
-            <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              現場が本当に必要としている機能だけを。
+            <p className="text-[16px] text-[#666] max-w-[520px] mx-auto">
+              深夜の火災で、あなたの分団は何人集まる？
+              <br />
+              NOROSHIは、その答えを変えるために作られた。
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {features.map((feature, i) => (
-            <FadeIn key={feature.title} delay={i * 0.1}>
+            <FadeIn key={feature.title} delay={i * 0.08}>
               <div className="group relative rounded-2xl border border-white/[0.06] bg-[#111111] overflow-hidden card-glow">
                 {feature.image && (
                   <div className="relative h-48 overflow-hidden">
@@ -385,13 +391,13 @@ function FeaturesSection() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/60 to-transparent" />
                   </div>
                 )}
-                <div className={`p-8 ${!feature.image ? "pt-10" : ""}`}>
+                <div className={`p-7 ${!feature.image ? "pt-9" : ""}`}>
                   <div
-                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${feature.accent} flex items-center justify-center mb-5 opacity-90`}
+                    className={`w-10 h-10 rounded-xl bg-gradient-to-br ${feature.accent} flex items-center justify-center mb-4 opacity-90`}
                   >
                     <feature.icon className="w-5 h-5 text-white" />
                   </div>
-                  <h3 className="text-[20px] font-bold text-white mb-3 tracking-[-0.01em]">
+                  <h3 className="text-[20px] font-bold text-white mb-2.5 tracking-[-0.01em]">
                     {feature.title}
                   </h3>
                   <p className="text-[15px] text-[#888] leading-relaxed">
@@ -410,21 +416,21 @@ function FeaturesSection() {
 /* ── Stats Section ── */
 function StatsSection() {
   return (
-    <section className="py-20 border-y border-white/[0.04]">
+    <section className="py-16 border-y border-white/[0.04]">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "最大150人", label: "同時架電" },
-              { value: "4段階", label: "エスカレーション通知" },
-              { value: "全国対応", label: "水利ネットワーク" },
-              { value: "¥0", label: "基本機能は無料" },
+              { value: "4段階", label: "応答があるまで、通知＋架電をエスカレーション" },
+              { value: "150人", label: "ボタンひとつで、最大150人に同時架電" },
+              { value: "10秒", label: "招集発信から全員の電話が鳴るまで" },
+              { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
-              <div key={stat.label}>
+              <div key={stat.value}>
                 <div className="text-[clamp(28px,4vw,40px)] font-bold text-flame-gradient mb-2">
                   {stat.value}
                 </div>
-                <div className="text-[13px] text-[#666]">{stat.label}</div>
+                <div className="text-[12px] text-[#666] leading-relaxed max-w-[180px] mx-auto">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -440,7 +446,7 @@ const plans = [
     name: "無料",
     price: "¥0",
     period: "",
-    description: "基本機能をすべて無料で",
+    description: "招集の受信・応答はずっと無料",
     features: [
       "招集の発信・受信・応答（プッシュ通知）",
       "参集状況共有",
@@ -489,10 +495,10 @@ const plans = [
 
 function PricingSection() {
   return (
-    <section id="pricing" className="py-32 relative">
+    <section id="pricing" className="py-20 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
-          <div className="text-center mb-16">
+          <div className="text-center mb-14">
             <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
               料金
             </span>
@@ -500,19 +506,19 @@ function PricingSection() {
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              シンプルな料金体系
+              現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              基本機能は無料。必要に応じてアップグレード。
+              招集の受信・応答はずっと無料。必要に応じてアップグレード。
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[960px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
           {plans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 0.1}>
               <div
-                className={`relative rounded-2xl border p-8 flex flex-col h-full ${
+                className={`relative rounded-2xl border p-7 flex flex-col h-full ${
                   plan.highlighted
                     ? "border-[#FF453A]/30 bg-gradient-to-b from-[#FF453A]/[0.04] to-[#111111]"
                     : "border-white/[0.06] bg-[#111111]"
@@ -523,7 +529,7 @@ function PricingSection() {
                     おすすめ
                   </div>
                 )}
-                <div className="mb-6">
+                <div className="mb-5">
                   <h3 className="text-[16px] font-semibold text-white mb-2">
                     {plan.name}
                   </h3>
@@ -541,7 +547,7 @@ function PricingSection() {
                   )}
                 </div>
 
-                <ul className="space-y-3 mb-8 flex-1">
+                <ul className="space-y-2.5 mb-7 flex-1">
                   {plan.features.map((f) => (
                     <li key={f} className="flex items-start gap-2.5">
                       <Check className="w-4 h-4 text-[#FF9F0A] mt-0.5 shrink-0" />
@@ -584,46 +590,46 @@ function SecuritySection() {
   const items = [
     {
       icon: Server,
-      title: "国内サーバー",
-      description: "データは東京リージョンのサーバーに保存されています。",
+      title: "東京リージョン保存",
+      description: "データは東京リージョンのサーバーに保存。国内で完結。",
     },
     {
       icon: Lock,
-      title: "電話番号の保護",
+      title: "電話番号は誰にも見えない",
       description: "電話番号の公開範囲を設定可能。分団内のみ共有、または団全体で共有を選択できます。",
     },
     {
       icon: MapPinOff,
-      title: "位置情報の制御",
+      title: "位置情報は招集時だけ",
       description: "位置情報は招集時のみ共有。平時は送信されません。",
     },
   ];
 
   return (
-    <section className="py-24 relative">
+    <section className="py-16 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
-              安全性
+              セキュリティ
             </span>
             <h2
-              className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
+              className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              安全性への取り組み
+              データの扱い
             </h2>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[960px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
           {items.map((item, i) => (
             <FadeIn key={item.title} delay={i * 0.1}>
-              <div className="rounded-2xl border border-white/[0.06] bg-[#111111] p-8 card-glow">
-                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-5">
+              <div className="rounded-2xl border border-white/[0.06] bg-[#111111] p-7 card-glow">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4">
                   <item.icon className="w-5 h-5 text-[#888]" />
                 </div>
-                <h3 className="text-[16px] font-semibold text-white mb-3">
+                <h3 className="text-[16px] font-semibold text-white mb-2.5">
                   {item.title}
                 </h3>
                 <p className="text-[14px] text-[#888] leading-relaxed">
@@ -641,20 +647,20 @@ function SecuritySection() {
 /* ── CTA Section ── */
 function CTASection() {
   return (
-    <section className="py-32 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FF453A]/[0.03] to-transparent" />
       <div className="relative max-w-[1200px] mx-auto px-5 text-center">
         <FadeIn>
           <h2
-            className="text-[clamp(28px,5vw,48px)] font-bold tracking-[-0.025em] text-white mb-6"
+            className="text-[clamp(28px,5vw,48px)] font-bold tracking-[-0.025em] text-white mb-5"
             style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
           >
-            招集、水利、活動記録。
+            あなたの分団を、
             <br className="sm:hidden" />
-            すべてを、ひとつに。
+            次の出動から変える。
           </h2>
           <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
-            消防団の日常と非常時を支えるプラットフォーム。
+            招集、水利、活動記録。すべてを、ひとつに。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
@@ -705,9 +711,9 @@ function CTASection() {
 /* ── Footer ── */
 function Footer() {
   return (
-    <footer className="border-t border-white/[0.04] py-16">
+    <footer className="border-t border-white/[0.04] py-12">
       <div className="max-w-[1200px] mx-auto px-5">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
