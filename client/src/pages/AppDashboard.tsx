@@ -69,8 +69,8 @@ export default function AppDashboard() {
       </div>
 
       {/* Member cards */}
-      <h3 className="text-[14px] font-semibold text-[#888] mb-4 tracking-wide uppercase">
-        Members
+      <h3 className="text-[14px] font-semibold text-[#888] mb-4 tracking-wide">
+        メンバー
       </h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {mockMembers.map((member) => {

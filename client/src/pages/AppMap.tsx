@@ -92,7 +92,7 @@ export default function AppMap() {
 
         {/* Legend */}
         <div className="absolute bottom-4 left-4 p-4 rounded-xl border border-white/[0.06] bg-[#0A0A0A]/90 backdrop-blur">
-          <h4 className="text-[11px] font-semibold text-[#888] mb-3 tracking-wide uppercase">
+          <h4 className="text-[11px] font-semibold text-[#888] mb-3 tracking-wide">
             凡例
           </h4>
           <div className="space-y-2">

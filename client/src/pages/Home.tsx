@@ -6,7 +6,6 @@
  */
 
 import { useEffect, useRef, useState } from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { Link } from "wouter";
 import { motion, useInView } from "framer-motion";
 import {
@@ -18,15 +17,18 @@ import {
   Smartphone,
   Zap,
   Check,
+  Monitor,
+  Shield,
+  Lock,
+  MapPinOff,
+  Server,
 } from "lucide-react";
 
-const HERO_BG = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/YMrJ70ltu7J1BOcHUwXKgv-img-1_1771560778000_na1fn_aGVyby1iZw.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1lNcko3MGx0dTdKMUJPY0hVd1hLZ3YtaW1nLTFfMTc3MTU2MDc3ODAwMF9uYTFmbl9hR1Z5YnkxaVp3LmpwZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=QK8GbsqJtwp67L4yGMfW5aZxc11JIL~rCBZFkwXcVkFtpeCSP1p-KZ5OXIaAsZeKnrbmCYsKlIPjJcE8uNNEybBX-URNIzWrobipM9f8qSEddrAcnKiCF2QAkokRDtjv8RKnh2xYKkCYtNdyfU9wSADrN4d~K-J3SMkbWbdEEJ~tr14tzPPLMbmIjK4JotlplFbaQUZkFmSpEjZXfyVmPEewpFgRTjRJfKnYZGCwWl59DvQior61zaxKBj0u7JDZ6JT6RftkKW9CKKuuQO~jNsmDKAo5BaFv0qD3FdjBXzUEIaX1TdB1WNXw1-0eSVFk557pnk2JtH4hyzKTEAFnFQ__";
-
-const FEATURE_ALERT = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/YMrJ70ltu7J1BOcHUwXKgv-img-2_1771560765000_na1fn_ZmVhdHVyZS1hbGVydA.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1lNcko3MGx0dTdKMUJPY0hVd1hLZ3YtaW1nLTJfMTc3MTU2MDc2NTAwMF9uYTFmbl9abVZoZEhWeVpTMWhiR1Z5ZEEuanBnP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=h3ituERExW3fvn6VG2ivNHH1p50bvUALb5inaeODJz6xcbeD5RKN68cNl26WSGF-FDomWk4gPq0p0D0EOBnCHSrgo4Zl3BY1mgsABVeLjdN179F7ot8iEIgftzfH33s1EENWMx1b3t1aY~r~O3C8GQ85aKO5znIsRHk~2qwBCZNx6L5nJ~-YKdiCvMpetQLR4TIdptCfY6X-2OnRvOilHbwM3L9IrJ0YThR2CdeFlzjsi-xEdQG~DJmIzUpWdY8mtdGCfsEsakiGDgu1DgecUHBDqarXPFttneGxfmKE34QJyVgWRL0YJL~9J4ipvz7AtJ2krKBYpq~bzCLFys5a1A__";
-
-const FEATURE_MAP = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/YMrJ70ltu7J1BOcHUwXKgv-img-3_1771560780000_na1fn_ZmVhdHVyZS1tYXA.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1lNcko3MGx0dTdKMUJPY0hVd1hLZ3YtaW1nLTNfMTc3MTU2MDc4MDAwMF9uYTFmbl9abVZoZEhWeVpTMXRZWEEuanBnP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=Lus4VYjjsU7SRW1~xeQO4WVnYSEgfERDHfgBxyRKWsHHFqmifX3Y6I2Nu2vy4geEnyymYBrpdlK4l68Z23RJU8wlWR~p07e-yBk0tbyRogLg5eFE9djmTvhxO6YLcQbpZNRZBHky8GXDrRulerVPpEM2LMgkM2RUp92EIqditf6H1bhDIFjl5hQwzTM2HJJnhy8xYqDQrzZEXwyk0K7lt8KrsvoK4U6fjuUjm1~XfbdDgq8veQaCVpOajo7WB2TMmmRrbsYB37A1J226yhQWpT2Za0Kkg4JmFvS2G8QijTCS5~j4vbX2sBu1bgUyxnqN29MT46TmlgxXeXDOF87afw__";
-
-const FEATURE_REALTIME = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/YMrJ70ltu7J1BOcHUwXKgv-img-4_1771560778000_na1fn_ZmVhdHVyZS1yZWFsdGltZQ.jpg?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1lNcko3MGx0dTdKMUJPY0hVd1hLZ3YtaW1nLTRfMTc3MTU2MDc3ODAwMF9uYTFmbl9abVZoZEhWeVpTMXlaV0ZzZEdsdFpRLmpwZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=jSv~EZLFHJ5HGSKnX2xXj80VKKGs3jCfj-ItAc60zXEWRf0UZDX6xvOnULk1IIzAcRLTDN7DQu4AkCY5xMyI0HuUPqW~F0CVsDwkT90uBU5IVfYi5x8Tm7ZiZGrK3lIwGkNNwZLeKM3chO4tKxRA4sm5S-fHFd6EgPSlorIbwPicIDHEbMCG3oiZjVDTL9tLO8tpVYxGB1SQoHqi2Ko~fz2Vc68V57rwWnH4kdkaXzf5DXIzyS8oy9Kqib6SQ8YEeOoh2xwVdUTz23xEQtP8bjag4jsPzAmUqYnApJMhTFCln31Od5rWF0-EXst8dNrMjj9CRfzz9HtLHyUpDUa-yQ__";
+/* ── Image URLs (S3 permanent) ── */
+const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/puZfROqYCousGZbZ.jpg";
+const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/jRoUeZkHJzPFukmJ.jpg";
+const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ZmlwPsvHKrEEehvE.jpg";
+const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/hKEoAbOgJhzzUQKS.jpg";
 
 /* ── Fade-in animation wrapper ── */
 function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -81,6 +83,9 @@ function Header() {
           <a href="mailto:info@noroshitech.com" className="text-[13px] text-[#A8A8A8] hover:text-white transition-colors">
             お問い合わせ
           </a>
+          <Link href="/app/login" className="text-[13px] text-[#A8A8A8] hover:text-white transition-colors">
+            ログイン
+          </Link>
         </nav>
         <div className="flex items-center gap-3">
           <a
@@ -120,7 +125,7 @@ function HeroSection() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/[0.08] bg-white/[0.03] mb-8">
             <div className="w-1.5 h-1.5 rounded-full bg-[#FF453A] animate-pulse" />
             <span className="text-[12px] text-[#A8A8A8] tracking-wide">
-              Emergency Response Platform
+              消防団向け参集・活動支援アプリ
             </span>
           </div>
         </motion.div>
@@ -132,9 +137,9 @@ function HeroSection() {
           className="text-[clamp(36px,7vw,72px)] font-extrabold leading-[1.1] tracking-[-0.03em] text-white mb-6"
           style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
         >
-          緊急招集を、
+          架電で、
           <br />
-          <span className="text-flame-gradient">再定義する。</span>
+          <span className="text-flame-gradient">絶対起こす。</span>
         </motion.h1>
 
         <motion.p
@@ -143,9 +148,9 @@ function HeroSection() {
           transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-10"
         >
-          自動架電、リアルタイム参集状況、水利マップ。
+          狼煙のように、確実に届ける。
           <br className="hidden sm:block" />
-          現場のオペレーションを、テクノロジーで変える。
+          消防団の招集を変える。
         </motion.p>
 
         <motion.div
@@ -161,6 +166,13 @@ function HeroSection() {
             <Smartphone className="w-4 h-4" />
             アプリをダウンロード
           </a>
+          <Link
+            href="/app/login"
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
+          >
+            <Monitor className="w-4 h-4" />
+            Webで使う
+          </Link>
           <a
             href="#features"
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
@@ -183,7 +195,7 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "プッシュ通知で届かないとき、自動で電話をかける。深夜の火災でも、確実に届ける。",
+      "応答があるまで最大4回自動で電話。マナーモード・おやすみモードも貫通する緊急通知。招集ボタン一つで、最大150人に同時架電。",
     image: FEATURE_ALERT,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
@@ -199,7 +211,7 @@ const features = [
     icon: MapPin,
     title: "水利マップ",
     description:
-      "消火栓、防火水槽、自然水利。すべての水利情報を地図上で共有し、現場到着前に把握する。",
+      "GPS精度で水利を登録。隣の分団の水利情報も見える。全国の消防団員と水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
     image: FEATURE_MAP,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
@@ -207,7 +219,7 @@ const features = [
     icon: FileText,
     title: "出動記録",
     description:
-      "出動のタイムラインを自動記録。報告書作成の手間を削減し、活動の可視化を実現する。",
+      "招集から自動で出動記録を生成。種別・場所・参加者が自動入力。",
     image: null,
     accent: "from-[#A8A8A8] to-[#666666]",
   },
@@ -219,8 +231,8 @@ function FeaturesSection() {
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-20">
-            <span className="text-[12px] font-semibold tracking-[0.15em] uppercase text-[#FF9F0A] mb-4 block">
-              Features
+            <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
+              機能
             </span>
             <h2
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
@@ -279,10 +291,10 @@ function StatsSection() {
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "3秒", label: "平均通知到達時間" },
-              { value: "24/7", label: "自動架電対応" },
-              { value: "100%", label: "通知到達率" },
-              { value: "¥0", label: "基本機能" },
+              { value: "4段階", label: "エスカレーション通知" },
+              { value: "最大150人", label: "同時架電対応" },
+              { value: "GPS精度", label: "水利登録" },
+              { value: "¥0", label: "基本機能は無料" },
             ].map((stat) => (
               <div key={stat.label}>
                 <div className="text-[clamp(28px,4vw,40px)] font-bold text-flame-gradient mb-2">
@@ -301,44 +313,47 @@ function StatsSection() {
 /* ── Pricing Section ── */
 const plans = [
   {
-    name: "個人",
+    name: "無料",
     price: "¥0",
     period: "",
     description: "基本機能をすべて無料で",
     features: [
-      "招集の発信・受信・応答",
-      "参集ダッシュボード",
-      "位置情報共有",
-      "メンバー管理",
+      "招集の発信・受信・応答（プッシュ通知）",
+      "参集状況共有",
+      "位置情報共有・閲覧",
+      "メンバー管理・招待",
       "水利閲覧",
+      "連絡送受信",
     ],
     cta: "無料ではじめる",
     highlighted: false,
   },
   {
-    name: "個人 Pro",
+    name: "個人Pro",
     price: "¥980",
     period: "/月",
     description: "自動架電で確実に届ける",
     features: [
       "無料プランの全機能",
-      "自動架電",
-      "爆音プッシュ通知",
-      "エスカレーション通知",
+      "自動架電（最大4回エスカレーション）",
+      "緊急通知（マナーモード貫通）",
+      "エスカレーション通知設定",
       "水利の登録・編集・点検",
-      "出動記録の作成・編集",
+      "台帳インポート・エクスポート",
+      "出動記録の作成・編集・閲覧",
     ],
-    cta: "Pro をはじめる",
+    cta: "Proをはじめる",
     highlighted: true,
   },
   {
-    name: "分団",
-    price: "¥4,800",
-    period: "/月/分団",
-    description: "分団全員にPro機能を",
+    name: "団プラン",
+    price: "¥800",
+    period: "/人/月",
+    description: "所属メンバー全員のPro機能が有効になります",
+    subNote: "10人以上から契約可能",
     features: [
       "個人Proの全機能",
-      "分団全員がPro機能を利用",
+      "所属メンバー全員がPro機能を利用可能",
       "一括管理・招待",
       "台帳インポート・エクスポート",
       "優先サポート",
@@ -354,8 +369,8 @@ function PricingSection() {
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-16">
-            <span className="text-[12px] font-semibold tracking-[0.15em] uppercase text-[#FF9F0A] mb-4 block">
-              Pricing
+            <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
+              料金
             </span>
             <h2
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
@@ -397,6 +412,9 @@ function PricingSection() {
                     )}
                   </div>
                   <p className="text-[13px] text-[#666] mt-2">{plan.description}</p>
+                  {"subNote" in plan && plan.subNote && (
+                    <p className="text-[12px] text-[#FF9F0A] mt-1">{plan.subNote}</p>
+                  )}
                 </div>
 
                 <ul className="space-y-3 mb-8 flex-1">
@@ -415,8 +433,8 @@ function PricingSection() {
                       : "border border-white/[0.08] text-[#A8A8A8] hover:bg-white/[0.04] hover:text-white"
                   }`}
                   onClick={() => {
-                    if (plan.name === "分団") {
-                      window.location.href = "mailto:info@noroshitech.com?subject=分団プランについて";
+                    if (plan.name === "団プラン") {
+                      window.location.href = "mailto:info@noroshitech.com?subject=団プランについて";
                     }
                   }}
                 >
@@ -437,6 +455,65 @@ function PricingSection() {
   );
 }
 
+/* ── Security Section ── */
+function SecuritySection() {
+  const items = [
+    {
+      icon: Server,
+      title: "国内サーバー",
+      description: "データは東京リージョンのサーバーに保存されています。",
+    },
+    {
+      icon: Lock,
+      title: "電話番号の保護",
+      description: "電話番号は暗号化して保管。他の団員からは閲覧できません。",
+    },
+    {
+      icon: MapPinOff,
+      title: "位置情報の制御",
+      description: "位置情報は招集時のみ共有。平時は送信されません。",
+    },
+  ];
+
+  return (
+    <section className="py-24 relative">
+      <div className="max-w-[1200px] mx-auto px-5">
+        <FadeIn>
+          <div className="text-center mb-16">
+            <span className="text-[12px] font-semibold tracking-[0.15em] text-[#FF9F0A] mb-4 block">
+              安全性
+            </span>
+            <h2
+              className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
+              style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
+            >
+              安全性への取り組み
+            </h2>
+          </div>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-[960px] mx-auto">
+          {items.map((item, i) => (
+            <FadeIn key={item.title} delay={i * 0.1}>
+              <div className="rounded-2xl border border-white/[0.06] bg-[#111111] p-8 card-glow">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-5">
+                  <item.icon className="w-5 h-5 text-[#888]" />
+                </div>
+                <h3 className="text-[16px] font-semibold text-white mb-3">
+                  {item.title}
+                </h3>
+                <p className="text-[14px] text-[#888] leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ── CTA Section ── */
 function CTASection() {
   return (
@@ -448,12 +525,14 @@ function CTASection() {
             className="text-[clamp(28px,5vw,48px)] font-bold tracking-[-0.025em] text-white mb-6"
             style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
           >
-            現場を、変えよう。
+            消防団の招集、
+            <br className="sm:hidden" />
+            もう取りこぼさない。
           </h2>
-          <p className="text-[16px] text-[#888] max-w-[440px] mx-auto mb-10">
-            NOROSHIは、あなたの現場のオペレーションを
+          <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
+            水利情報を全国の消防団員と共有。
             <br className="hidden sm:block" />
-            テクノロジーで進化させます。
+            台帳管理もアプリで完結。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
@@ -472,7 +551,7 @@ function CTASection() {
             </a>
           </div>
           <p className="text-[12px] text-[#555] mt-4">
-            ストア公開準備中 — 事前登録受付中
+            まもなく公開予定
           </p>
         </FadeIn>
       </div>
@@ -497,16 +576,16 @@ function Footer() {
               </span>
             </div>
             <p className="text-[14px] text-[#666] leading-relaxed max-w-[320px]">
-              緊急招集を再定義する。
+              消防団の招集を、確実に届ける。
               <br />
-              現場のオペレーションを、テクノロジーで変える。
+              水利情報を全国の消防団員と共有。
             </p>
           </div>
 
           {/* Links */}
           <div>
-            <h4 className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#555] mb-4">
-              Legal
+            <h4 className="text-[12px] font-semibold tracking-[0.1em] text-[#555] mb-4">
+              法務
             </h4>
             <ul className="space-y-3">
               <li>
@@ -529,8 +608,8 @@ function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-[12px] font-semibold tracking-[0.1em] uppercase text-[#555] mb-4">
-              Contact
+            <h4 className="text-[12px] font-semibold tracking-[0.1em] text-[#555] mb-4">
+              連絡先
             </h4>
             <ul className="space-y-3">
               <li>
@@ -564,6 +643,7 @@ export default function Home() {
       <FeaturesSection />
       <StatsSection />
       <PricingSection />
+      <SecuritySection />
       <CTASection />
       <Footer />
     </div>

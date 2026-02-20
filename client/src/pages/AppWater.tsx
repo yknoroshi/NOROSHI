@@ -80,16 +80,16 @@ export default function AppWater() {
           <table className="w-full text-[14px]">
             <thead>
               <tr className="border-b border-white/[0.06]">
-                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide uppercase">
+                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide">
                   種別
                 </th>
-                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide uppercase">
+                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide">
                   名称
                 </th>
-                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide uppercase hidden md:table-cell">
+                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide hidden md:table-cell">
                   住所
                 </th>
-                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide uppercase hidden lg:table-cell">
+                <th className="text-left py-3 px-5 text-[12px] font-semibold text-[#666] tracking-wide hidden lg:table-cell">
                   メモ
                 </th>
                 <th className="w-10"></th>
