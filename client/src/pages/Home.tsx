@@ -26,8 +26,10 @@ import {
   Menu,
   X,
   TriangleAlert,
+  BellRing,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 /* ── Image paths (S3 permanent URLs) ── */
 const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
@@ -41,6 +43,9 @@ const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_f
 const APP_STORE_URL = "#"; // TODO: App Store公開後にURLを設定
 const GOOGLE_PLAY_URL = "#"; // TODO: Google Play公開後にURLを設定
 const STORE_AVAILABLE = false; // true に変更するとバッジが有効化される
+
+/* ── X (Twitter) URL ── */
+const X_URL = "https://x.com/noroshi_app"; // TODO: 公式Xアカウント公開後にURLを設定
 
 /* ── Fade-in animation wrapper ── */
 function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -246,20 +251,36 @@ function HeroSection() {
           transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#pricing"
-            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
-          >
-            <Smartphone className="w-4 h-4" />
-            アプリをダウンロード
-          </a>
-          <Link
-            href="/app/login"
+          {STORE_AVAILABLE ? (
+            <a
+              href="#pricing"
+              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
+            >
+              <Smartphone className="w-4 h-4" />
+              アプリをダウンロード
+            </a>
+          ) : (
+            <a
+              href={X_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
+            >
+              <BellRing className="w-4 h-4" />
+              公開時に通知を受け取る
+            </a>
+          )}
+          <button
+            onClick={() => {
+              toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
+                duration: 4000,
+              });
+            }}
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
           >
             <Monitor className="w-4 h-4" />
             Webで使う
-          </Link>
+          </button>
           <a
             href="#features"
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
@@ -433,7 +454,7 @@ const plans = [
   },
   {
     name: "個人Pro",
-    price: "¥980",
+    price: "¥650",
     period: "/月",
     description: "自動架電で確実に届ける",
     features: [
@@ -450,7 +471,7 @@ const plans = [
   },
   {
     name: "団プラン",
-    price: "¥800",
+    price: "¥980",
     period: "/人/月",
     description: "所属メンバー全員のPro機能が有効になります",
     subNote: "10人以上から契約可能",
@@ -459,7 +480,7 @@ const plans = [
       "所属メンバー全員がPro機能を利用可能",
       "一括管理・招待",
       "台帳インポート・エクスポート",
-      "優先サポート",
+      "メールサポート",
     ],
     cta: "お問い合わせ",
     highlighted: false,
@@ -637,28 +658,30 @@ function CTASection() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
-              href={APP_STORE_URL}
-              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
-              {...(!STORE_AVAILABLE && { 'aria-disabled': 'true', tabIndex: -1 })}
+              href={STORE_AVAILABLE ? APP_STORE_URL : X_URL}
+              target={STORE_AVAILABLE ? undefined : "_blank"}
+              rel={STORE_AVAILABLE ? undefined : "noopener noreferrer"}
+              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60' : ''}`}
             >
               <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current shrink-0">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
               </svg>
               <div className="text-left">
-                <div className="text-[10px] text-[#888] leading-tight">ダウンロード</div>
+                <div className="text-[10px] text-[#888] leading-tight">{STORE_AVAILABLE ? 'ダウンロード' : 'まもなく公開'}</div>
                 <div className="text-[16px] font-semibold text-white leading-tight">App Store</div>
               </div>
             </a>
             <a
-              href={GOOGLE_PLAY_URL}
-              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
-              {...(!STORE_AVAILABLE && { 'aria-disabled': 'true', tabIndex: -1 })}
+              href={STORE_AVAILABLE ? GOOGLE_PLAY_URL : X_URL}
+              target={STORE_AVAILABLE ? undefined : "_blank"}
+              rel={STORE_AVAILABLE ? undefined : "noopener noreferrer"}
+              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60' : ''}`}
             >
               <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current shrink-0">
                 <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 1.33a1 1 0 010 1.724l-2.302 1.33-2.535-2.535 2.535-2.535v.686zm-3.906-3.906L4.864 12.14l10.928-6.538z"/>
               </svg>
               <div className="text-left">
-                <div className="text-[10px] text-[#888] leading-tight">ダウンロード</div>
+                <div className="text-[10px] text-[#888] leading-tight">{STORE_AVAILABLE ? 'ダウンロード' : 'まもなく公開'}</div>
                 <div className="text-[16px] font-semibold text-white leading-tight">Google Play</div>
               </div>
             </a>

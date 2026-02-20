@@ -4,7 +4,9 @@
  */
 
 import { Link } from "wouter";
-import { ArrowLeft, Zap } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+
+const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
 interface LegalLayoutProps {
   title: string;
@@ -19,9 +21,7 @@ export default function LegalLayout({ title, lastUpdated, children }: LegalLayou
       <header className="border-b border-white/[0.06]">
         <div className="max-w-[720px] mx-auto px-5 h-16 flex items-center">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
+            <img src={NOROSHI_LOGO} alt="NOROSHI" className="w-7 h-7 rounded-lg" />
             <span className="text-[15px] font-bold tracking-[0.08em] text-white">
               NOROSHI
             </span>
