@@ -29,7 +29,7 @@ import {
 import { AnimatePresence } from "framer-motion";
 
 /* ── Image paths (local) ── */
-const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/bfBCsHkWVIUGZaxl.jpg";
+const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/tIwBGtnPnKwcrBGH.jpg";
 const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg";
 const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/YrRkOzPQPnqYSpGf.jpg";
 const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg";
