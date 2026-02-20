@@ -9,7 +9,6 @@ import {
   Map,
   Droplets,
   FileText,
-  Zap,
   LogOut,
   Menu,
   X,
@@ -38,9 +37,7 @@ export default function AppLayout({ children, title }: AppLayoutProps) {
       <aside className="hidden lg:flex flex-col w-[240px] border-r border-white/[0.06] bg-[#0A0A0A] fixed inset-y-0 left-0 z-40">
         <div className="h-16 flex items-center px-5 border-b border-white/[0.06]">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png" alt="NOROSHI" className="w-7 h-7 rounded-lg" />
             <span className="text-[14px] font-bold tracking-[0.08em] text-white">
               NOROSHI
             </span>
@@ -99,9 +96,7 @@ export default function AppLayout({ children, title }: AppLayoutProps) {
       >
         <div className="h-16 flex items-center justify-between px-5 border-b border-white/[0.06]">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
-            </div>
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png" alt="NOROSHI" className="w-7 h-7 rounded-lg" />
             <span className="text-[14px] font-bold tracking-[0.08em] text-white">
               NOROSHI
             </span>

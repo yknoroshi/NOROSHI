@@ -13,6 +13,7 @@ import {
   MapPin,
   Radio,
   FileText,
+  Bell,
   ChevronRight,
   Smartphone,
   Zap,
@@ -24,11 +25,12 @@ import {
   Server,
 } from "lucide-react";
 
-/* ── Image URLs (S3 permanent) ── */
-const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/puZfROqYCousGZbZ.jpg";
-const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/jRoUeZkHJzPFukmJ.jpg";
-const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ZmlwPsvHKrEEehvE.jpg";
-const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/hKEoAbOgJhzzUQKS.jpg";
+/* ── Image paths (local) ── */
+const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/wQuZeFmBXafdlhcR.jpg";
+const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg";
+const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/YrRkOzPQPnqYSpGf.jpg";
+const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg";
+const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
 /* ── Fade-in animation wrapper ── */
 function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -66,9 +68,7 @@ function Header() {
     >
       <div className="max-w-[1200px] mx-auto px-5 h-16 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-            <Zap className="w-4 h-4 text-white" />
-          </div>
+          <img src={NOROSHI_LOGO} alt="NOROSHI" className="w-7 h-7 rounded-lg" />
           <span className="text-[15px] font-bold tracking-[0.08em] text-white">
             NOROSHI
           </span>
@@ -195,8 +195,16 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "応答があるまで最大4回自動で電話。マナーモード・おやすみモードも貫通する緊急通知。招集ボタン一つで、最大150人に同時架電。",
+      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大150人に同時架電。",
     image: FEATURE_ALERT,
+    accent: "from-[#FF453A] to-[#FF9F0A]",
+  },
+  {
+    icon: Bell,
+    title: "強制通知",
+    description:
+      "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
+    image: null,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -241,7 +249,7 @@ function FeaturesSection() {
               必要な機能を、必要なだけ。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              現場が本当に必要としている機能だけを、徹底的に磨き上げた。
+              現場が本当に必要としている機能だけを。
             </p>
           </div>
         </FadeIn>
@@ -466,7 +474,7 @@ function SecuritySection() {
     {
       icon: Lock,
       title: "電話番号の保護",
-      description: "電話番号は暗号化して保管。他の団員からは閲覧できません。",
+      description: "電話番号の公開範囲を設定可能。分団内のみ共有、または団全体で共有を選択できます。",
     },
     {
       icon: MapPinOff,
@@ -525,14 +533,12 @@ function CTASection() {
             className="text-[clamp(28px,5vw,48px)] font-bold tracking-[-0.025em] text-white mb-6"
             style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
           >
-            消防団の招集、
+            招集、水利、活動記録。
             <br className="sm:hidden" />
-            もう取りこぼさない。
+            すべてを、ひとつに。
           </h2>
           <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
-            水利情報を全国の消防団員と共有。
-            <br className="hidden sm:block" />
-            台帳管理もアプリで完結。
+            消防団の日常と非常時を支えるプラットフォーム。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
@@ -568,17 +574,13 @@ function Footer() {
           {/* Brand */}
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-                <Zap className="w-4 h-4 text-white" />
-              </div>
+              <img src={NOROSHI_LOGO} alt="NOROSHI" className="w-7 h-7 rounded-lg" />
               <span className="text-[15px] font-bold tracking-[0.08em] text-white">
                 NOROSHI
               </span>
             </div>
             <p className="text-[14px] text-[#666] leading-relaxed max-w-[320px]">
-              消防団の招集を、確実に届ける。
-              <br />
-              水利情報を全国の消防団員と共有。
+              消防団の参集・水利管理・活動記録を支えるアプリ。
             </p>
           </div>
 

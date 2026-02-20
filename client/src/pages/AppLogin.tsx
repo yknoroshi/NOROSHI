@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import { Link } from "wouter";
-import { Zap, Phone, ArrowRight } from "lucide-react";
+import { Phone, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 
 export default function AppLogin() {
@@ -35,9 +35,7 @@ export default function AppLogin() {
         {/* Logo */}
         <div className="flex flex-col items-center mb-10">
           <Link href="/" className="flex items-center gap-2.5 mb-6">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#FF453A] to-[#FF9F0A] flex items-center justify-center">
-              <Zap className="w-5 h-5 text-white" />
-            </div>
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png" alt="NOROSHI" className="w-10 h-10 rounded-xl" />
           </Link>
           <h1
             className="text-[24px] font-bold text-white mb-2 tracking-[-0.02em]"
