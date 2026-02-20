@@ -13,6 +13,7 @@ import AppDashboard from "./pages/AppDashboard";
 import AppMap from "./pages/AppMap";
 import AppWater from "./pages/AppWater";
 import AppRecords from "./pages/AppRecords";
+import Contact from "./pages/Contact";
 
 /*
  * AuthGuard — 未ログインユーザーを /app/login にリダイレクト
@@ -41,6 +42,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/tokushoho" component={Tokushoho} />
+      <Route path="/contact" component={Contact} />
       <Route path="/app/login" component={AppLogin} />
       <Route path="/app/dashboard">{() => <ProtectedRoute component={AppDashboard} />}</Route>
       <Route path="/app/map">{() => <ProtectedRoute component={AppMap} />}</Route>
