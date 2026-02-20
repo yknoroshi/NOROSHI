@@ -25,14 +25,16 @@ import {
   Server,
   Menu,
   X,
+  TriangleAlert,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
-/* ── Image paths (local) ── */
-const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/tIwBGtnPnKwcrBGH.jpg";
+/* ── Image paths (S3 permanent URLs) ── */
+const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
 const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg";
-const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/YrRkOzPQPnqYSpGf.jpg";
+const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/sGFRtPDJZGfnfaFm.jpg";
 const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg";
+const FEATURE_HAZARD = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/vabCSfkrRlmUoFbu.jpg";
 const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
 /* ── Store URLs (公開後に差し替え) ── */
@@ -309,6 +311,14 @@ const features = [
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
   {
+    icon: TriangleAlert,
+    title: "ハザードマップ",
+    description:
+      "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動判断を支援。",
+    image: FEATURE_HAZARD,
+    accent: "from-[#FF6B6B] to-[#EE5A24]",
+  },
+  {
     icon: FileText,
     title: "出動記録",
     description:
@@ -384,9 +394,9 @@ function StatsSection() {
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
+              { value: "最大150人", label: "同時架電" },
               { value: "4段階", label: "エスカレーション通知" },
-              { value: "最大150人", label: "同時架電対応" },
-              { value: "GPS精度", label: "水利登録" },
+              { value: "全国対応", label: "水利ネットワーク" },
               { value: "¥0", label: "基本機能は無料" },
             ].map((stat) => (
               <div key={stat.label}>
@@ -628,10 +638,10 @@ function CTASection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
               href={APP_STORE_URL}
-              className={`inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
+              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
               {...(!STORE_AVAILABLE && { 'aria-disabled': 'true', tabIndex: -1 })}
             >
-              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current">
+              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current shrink-0">
                 <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
               </svg>
               <div className="text-left">
@@ -641,10 +651,10 @@ function CTASection() {
             </a>
             <a
               href={GOOGLE_PLAY_URL}
-              className={`inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
+              className={`inline-flex items-center gap-3 w-[200px] px-6 py-3.5 rounded-xl bg-white/[0.06] border border-white/[0.08] hover:bg-white/[0.1] transition-all ${!STORE_AVAILABLE ? 'opacity-60 pointer-events-none' : ''}`}
               {...(!STORE_AVAILABLE && { 'aria-disabled': 'true', tabIndex: -1 })}
             >
-              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current">
+              <svg viewBox="0 0 24 24" className="w-7 h-7 text-white fill-current shrink-0">
                 <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 1.33a1 1 0 010 1.724l-2.302 1.33-2.535-2.535 2.535-2.535v.686zm-3.906-3.906L4.864 12.14l10.928-6.538z"/>
               </svg>
               <div className="text-left">
@@ -684,7 +694,7 @@ function Footer() {
               </span>
             </div>
             <p className="text-[14px] text-[#666] leading-relaxed max-w-[320px]">
-              消防団の参集・水利管理・活動記録を支えるアプリ。
+              消防団の参集・活動を支えるアプリ。
             </p>
           </div>
 
