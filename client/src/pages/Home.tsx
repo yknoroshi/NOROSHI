@@ -5,11 +5,6 @@
  * Typography: system-ui + Noto Sans JP, tight letter-spacing on headings
  * Tone: Tactical × Professional — speak to the field, not the boardroom
  *
- * Button Style Guide:
- *   Primary CTA:   btn-flame class (gradient #FF453A → #FF9F0A, white text)
- *   Secondary CTA:  border border-white/[0.08] bg-white/[0.03] text-[#A8A8A8]
- *   Tertiary:       text link with underline, text-[#666]
- *   Disabled store: opacity-60 on store badges
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -24,13 +19,13 @@ import {
   ChevronRight,
   Smartphone,
   Check,
+  Shield,
   Lock,
   MapPinOff,
   Server,
   Menu,
   X,
   TriangleAlert,
-  Headset,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -39,15 +34,11 @@ import { toast } from "sonner";
 const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
 const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
-/* Feature card images — generated illustrations */
-const IMG_MUSTERING = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-1_1771679699000_na1fn_bm9yb3NoaS1tdXN0ZXJpbmctaGVybw.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTFfMTc3MTY3OTY5OTAwMF9uYTFmbl9ibTl5YjNOb2FTMXRkWE4wWlhKcGJtY3RhR1Z5YncucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=UXtQ7aIVoqKvTF9hClHzgPrTszTRoe~-ogTmL7ox7SvYf89JfA6RFtt6N16bSnnMgaDNesPjpUDI76y8ssBsTrPmDuesGS7oE4Req0u1aZrX3LzTpkVTBUJontQT4rux3v2J-ietCNOAQLGWnMl4tt6LfQdQdBZ3zmwazDG8HLfN~C74wA-BzbA8TVYyW7UFIbgEJDExVSd48lfF~zP7e8FgZgsZsTRbYe5I5nvd6f69ETzfnaqf1PCxQhF8Lmu2u3alp9vtlVskEqb1ll7hSuI8iQSRMPIFZB-THmQ2gLPoB-rpnDl08SFVnA18vinbsmSizc0cWZB~rQN1F5s0XA__";
-const IMG_SUIRI_MAP = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-2_1771679703000_na1fn_bm9yb3NoaS1zdWlyaS1tYXAtamFwYW4.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTJfMTc3MTY3OTcwMzAwMF9uYTFmbl9ibTl5YjNOb2FTMXpkV2x5YVMxdFlYQXRhbUZ3WVc0LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=C~6awhfrOAkGNM-MJns12zUPSrUcVIaegrz6ifLSXB4XxG20JFFChgJPb4zd-vakjwVSZYbji6eWuY2NJx7ACv3nmfbiUCw-rHXv~Ovb~qovSmVMEzE26mkH-iyPyvzPeQx-jxq2LRr5HKCelYM7QyPaSXKjH72WuLXXbVnFa1pdwtoiqJD3CcUymy7fEkb1EABmby6PsFN2vykvpXJWdp7qs2YFUVnbhpmdCosyhYhqwEABo32OeolZrtzcz8O0dIX8-zgcq-a6-AgtTdT8YWXLzdL95NHQkEvYARxnmBQD7VOPSJ4Fa1BbJQMYZfiH~hmufB3NonjiUiQ6dFE2kg__";
+/* Feature card images — generated illustrations (placeholder, will be replaced after re-generation) */
+const IMG_MUSTERING = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/x3rVzOklqylIpGCaTDGmo2-img-1_1771682446000_na1fn_bm9yb3NoaS1tdXN0ZXJpbmctdjQ.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L3gzclZ6T2tscXlsSXBHQ2FUREdtbzItaW1nLTFfMTc3MTY4MjQ0NjAwMF9uYTFmbl9ibTl5YjNOb2FTMXRkWE4wWlhKcGJtY3RkalEucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=sLyfCsRKzZMsX6HsnrSIMnGjTslD6Khn3lH8GfIwafyht0JM4GCJddgnZM2VAFpTtA5ZmaY~YTjWLJ1YOM6ImRjBbCARcJ~R7pLgT5zqru0BT6xSGN8KqprYXuKstEWda4aOw3wmU0moYKIfIZUJ5c6xR2-nx-ueuF7ETLby9hIfYfDxzOv8NOpr-sZjr~fXESGRMq4YpyPSna1~gnrUg1Hk3qCmR8PIP-zZxz11LZuFCouIeOHaI~Dtpy-RYpwmQ9F2KtIrrz2TLHAclrYEy6Rsu2l1S~IaJU0lsUniNuSiz4dLYT85F79un3DlB23QqYuwbNWc4ayYazjtCts7ng__";
+const IMG_SUIRI_MAP = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/Qjm0GxQyGXXb2wOpn96jSi-img-2_1771681691000_na1fn_bm9yb3NoaS1zdWlyaS1tYXAtdjI.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1FqbTBHeFF5R1hYYjJ3T3BuOTZqU2ktaW1nLTJfMTc3MTY4MTY5MTAwMF9uYTFmbl9ibTl5YjNOb2FTMXpkV2x5YVMxdFlYQXRkakkucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=mGpEsmpjeIbcFC~WVHuzZIurm-pXhr1tTnkWESESQSKOf2WExeyeWZEjU5Zq1ZehMVO5pJfhcPaPwQH4mx7WV98Zy2D4~HYqjMKPXtuJi-6fcqSmWbJ7OQ1le37Wr0l9hiUOiiVct0GKWUrbAgNLxsEi1bMuRDAKEvxUKLKzHN5DrB~6tCBEsFpdF2YgF5HFQu-W~WxIVt6n6HXaF0hWr3bA-30LWIfQ1UGKcx4FAEwhOT-KlvbjOlGu7air6~p-6fs8qRdTC1ziJ3eVDW2SOh~3BTN2DWnXmqZD-lW6SqdAdqMKD7~34Lot0shZB~nttggB1dy9VNGy7vs2d6Z1NQ__";
 const IMG_ACTIVITY_RECORD = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-3_1771679696000_na1fn_bm9yb3NoaS1hY3Rpdml0eS1yZWNvcmQ.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTNfMTc3MTY3OTY5NjAwMF9uYTFmbl9ibTl5YjNOb2FTMWhZM1JwZG1sMGVTMXlaV052Y21RLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=AGIngnoOgW9qBBR3S8qZcNvcttcNxy9QsL-HHiPi84DMMzxTGuISEyVDcOWERUBA2KmgboqHlnBDSFmUFLam1lAWHdf2SnMaXeMoQ26lDFKwXmaSt9cj2a9L514RY-WYjLGLen2xkWak~ko7JAjRDsQX0VLmxKMEmdP2PYfgvIoEylEPrxlgUBe5-0ZNLHECvAh6Kd4QQ70c0Ln51OkT-6Tm1-r1ws1aILiutC2vjxTWkRFz9mYRdDT2Xa9PW03HSt78grvbfiw6mp8wh~93PgBEo~BfSSDhY2wJfzZ92sFbpTRpQVajRbjdCmGUIgFS32UxuKDsErwwrmzE8OsaVQ__";
-const IMG_ACTIVITY_SUPPORT = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-4_1771679701000_na1fn_bm9yb3NoaS1hY3Rpdml0eS1zdXBwb3J0.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTRfMTc3MTY3OTcwMTAwMF9uYTFmbl9ibTl5YjNOb2FTMWhZM1JwZG1sMGVTMXpkWEJ3YjNKMC5wbmc-eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=UAH0wIJbfkGGmSV6uD4YUvVm~KCh3zYApaztR2X3gn8BySrMO7SE8jsoH2mK1MGYndlVsnOIloqGL~8R21A3kZDy593IQArv49VgsxQ~SgpbvfvcdW5nZErUWrqWQuyNVYUViGtdRet7R0DKn7Tml7vvdJxriCdBmiV9lT2TQeUw7tyYDhAIMYwqJG3X-cLVvRr5Yf9~gU7uJ603BZQyZGKphzLGUDSacZqYNo9zh5v8G6UX1vo7w9E10Sh7Dwm13li7HCaghqWxUhMex3jjUj9rGk5hMnpvsKec-cRE95bND6HKKy58ki0ZB~hiu-fFF5rqWvr3S-a91I0jnd2aJQ__";
-
-/* Feature card images — real screenshots (to be provided by user) */
-const IMG_AUTO_CALL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg"; // 自動架電スクリーンショット
-const IMG_HAZARD = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/vabCSfkrRlmUoFbu.jpg"; // ハザード情報スクリーンショット
+const IMG_FORCED_NOTIFY = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/x3rVzOklqylIpGCaTDGmo2-img-2_1771682439000_na1fn_bm9yb3NoaS1mb3JjZWQtbm90aWZ5LXYy.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L3gzclZ6T2tscXlsSXBHQ2FUREdtbzItaW1nLTJfMTc3MTY4MjQzOTAwMF9uYTFmbl9ibTl5YjNOb2FTMW1iM0pqWldRdGJtOTBhV1o1TFhZeS5wbmc~eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=BGF7RdR18BAlzU5FzNK8KfDExBS2B2hMj88TH6W6VjHwBKI3PwfFQE4pkHWNPO0C9KiIKlnoZeVq6Iii~N8ESAsn5-~wB2vvgUdshs7TsPBF0BBa1-0lcRhC0sTdVGuzhppxzfTKRhf8ZJQxU5wTHm0tq68dP5B8VaOCRfSO5-Ew97hajsb5VKZNHjenBpyVKAquydv0ac~JPff~YSpq-Ei~iLQIP2wK-f3BdWmeMFHeuW4cfU8O7wanbLc~Ndbl8rziGstS6EdkDobq828HJDeSqAwF2ekL4y0it~LN3iNEw~jAXlRNnF5FZySjCPXY35bHa531~v3ZGFRQKi2r7w__";
 
 /* ── Store URLs (公開後に差し替え) ── */
 const APP_STORE_URL = "#";
@@ -319,8 +310,8 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大30人に同時架電。",
-    image: IMG_AUTO_CALL,
+      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大150人に同時架電。",
+    image: null,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -328,7 +319,7 @@ const features = [
     title: "強制通知",
     description:
       "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
-    image: IMG_ACTIVITY_SUPPORT,
+    image: IMG_FORCED_NOTIFY,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -349,10 +340,10 @@ const features = [
   },
   {
     icon: TriangleAlert,
-    title: "ハザード情報",
+    title: "ハザードマップ",
     description:
       "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
-    image: IMG_HAZARD,
+    image: null,
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
   {
@@ -397,10 +388,10 @@ function FeaturesSection() {
                     <img
                       src={feature.image}
                       alt={feature.title}
-                      className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity duration-500"
+                      className="w-full h-full object-cover opacity-80 group-hover:opacity-95 transition-opacity duration-500"
                       loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/60 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/30 to-transparent" />
                   </div>
                 )}
                 <div className={`p-7 ${!feature.image ? "pt-9" : ""}`}>
@@ -434,7 +425,7 @@ function StatsSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { value: "4段階", label: "エスカレーション通知" },
-              { value: "最大30人", label: "同時架電対応" },
+              { value: "最大150人", label: "同時架電対応" },
               { value: "3D地図", label: "航空写真と地形データで現場判断を支援" },
               { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
@@ -458,8 +449,7 @@ const plans = [
     name: "無料",
     price: "¥0",
     period: "",
-    description: "基本機能をすべて無料で",
-    subNote: "",
+    description: "招集の受信・応答はずっと無料",
     features: [
       "招集受信・応答（通常プッシュ通知）",
       "参集ダッシュボード閲覧",
@@ -467,15 +457,14 @@ const plans = [
       "水利マップ閲覧",
       "出動記録閲覧",
     ],
-    cta: "アプリをダウンロード",
+    cta: "無料ではじめる",
     highlighted: false,
   },
   {
-    name: "NOROSHI Pro",
-    price: "¥1,000",
+    name: "個人プラン",
+    price: "¥980",
     period: "/月",
-    description: "架電・水利管理など全機能をアンロック",
-    subNote: "年額 ¥10,000（2ヶ月分お得）",
+    description: "自動架電で確実に届ける",
     features: [
       "無料プランの全機能",
       "招集発信・自動架電",
@@ -486,8 +475,23 @@ const plans = [
       "出動記録の作成・編集",
       "メンバー管理・招待",
     ],
-    cta: "アプリをダウンロード",
+    cta: "有料プランをはじめる",
     highlighted: true,
+  },
+  {
+    name: "団プラン",
+    price: "¥800",
+    period: "/人/月",
+    description: "所属メンバー全員の有料機能が有効になります",
+    subNote: "10人以上から契約可能",
+    features: [
+      "個人プランの全機能（価格差のみ）",
+      "所属メンバー全員が有料機能を利用可能",
+      "一括管理・招待",
+      "メールサポート",
+    ],
+    cta: "お問い合わせ",
+    highlighted: false,
   },
 ];
 
@@ -504,15 +508,15 @@ function PricingSection() {
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              必要な機能を、あなたの手に。
+              現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              現場対応力を上げるならPro。
+              必要に応じてアップグレード。
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-[720px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
           {plans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 0.1}>
               <div
@@ -540,7 +544,7 @@ function PricingSection() {
                     )}
                   </div>
                   <p className="text-[13px] text-[#666] mt-2">{plan.description}</p>
-                  {plan.subNote && (
+                  {"subNote" in plan && plan.subNote && (
                     <p className="text-[12px] text-[#FF9F0A] mt-1">{plan.subNote}</p>
                   )}
                 </div>
@@ -560,7 +564,11 @@ function PricingSection() {
                       ? "btn-flame text-white"
                       : "border border-white/[0.08] text-[#A8A8A8] hover:bg-white/[0.04] hover:text-white"
                   }`}
-                  onClick={() => {}}
+                  onClick={() => {
+                    if (plan.name === "団プラン" || plan.cta === "お問い合わせ") {
+                      window.location.href = "/contact";
+                    }
+                  }}
                 >
                   {plan.cta}
                 </button>
@@ -585,7 +593,7 @@ function SecuritySection() {
     {
       icon: Server,
       title: "国内サーバー",
-      description: "すべてのデータは東京リージョンのサーバーで管理。通信はTLS暗号化、データベースは行レベルセキュリティでアクセスを厳密に制御しています。",
+      description: "データは東京リージョンのサーバーに保存されています。",
     },
     {
       icon: Lock,
@@ -654,7 +662,7 @@ function CTASection() {
             次の出動から変える。
           </h2>
           <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
-            参集、水利管理、活動支援。すべてを、ひとつに。
+            招集、水利、活動支援。すべてを、ひとつに。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
