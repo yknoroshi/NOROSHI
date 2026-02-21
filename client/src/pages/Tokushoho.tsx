@@ -24,13 +24,7 @@ export default function Tokushoho() {
               },
               {
                 label: "販売価格",
-                value: (
-                  <>
-                    個人プラン: 月額 980円（税込）/ 年額 9,800円（税込）
-                    <br />
-                    団プラン: 月額 800円/人（税込）/ 年額 8,000円/人（税込）（10人〜）
-                  </>
-                ),
+                value: "NOROSHI Pro: 月額 1,000円（税込）/ 年額 10,000円（税込）",
               },
               { label: "支払方法", value: "App Store（Apple）またはGoogle Playでのアプリ内課金" },
               { label: "支払時期", value: "購入手続き完了時に課金されます。自動更新の場合は各期間の終了日に自動課金されます。" },

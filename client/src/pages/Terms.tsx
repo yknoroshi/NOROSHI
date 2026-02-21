@@ -49,14 +49,9 @@ export default function Terms() {
                 <td className="py-3 px-4">招集の発信・受信・応答、参集ダッシュボード、位置情報共有、メンバー管理、水利閲覧</td>
               </tr>
               <tr className="border-b border-white/[0.04]">
-                <td className="py-3 px-4">個人プレミアム</td>
-                <td className="py-3 px-4">¥980/月（年額 ¥9,800）</td>
-                <td className="py-3 px-4">自動架電、爆音プッシュ、エスカレーション通知、水利登録・編集・点検、台帳インポート・エクスポート、出動記録作成・編集</td>
-              </tr>
-              <tr className="border-b border-white/[0.04]">
-                <td className="py-3 px-4">分団プレミアム</td>
-                <td className="py-3 px-4">¥800/人/月（年額 ¥8,000/人、10人〜）</td>
-                <td className="py-3 px-4">個人プレミアムの全機能を分団全体で利用可能</td>
+                <td className="py-3 px-4">NOROSHI Pro</td>
+                <td className="py-3 px-4">¥1,000/月（年額 ¥10,000）</td>
+                <td className="py-3 px-4">自動架電、緊急通知（マナーモード貫通）、エスカレーション通知、水利登録・編集・点検、台帳インポート・エクスポート、出動記録作成・編集、メンバー管理・招待</td>
               </tr>
             </tbody>
           </table>

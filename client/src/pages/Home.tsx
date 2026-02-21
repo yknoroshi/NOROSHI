@@ -307,7 +307,7 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大150人に同時架電。",
+      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大30人に同時架電。",
     image: FEATURE_ALERT,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
@@ -422,7 +422,7 @@ function StatsSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
               { value: "4段階", label: "エスカレーション通知" },
-              { value: "最大150人", label: "同時架電対応" },
+              { value: "最大30人", label: "同時架電対応" },
               { value: "3D地図", label: "航空写真と地形データで現場判断を支援" },
               { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
@@ -446,7 +446,7 @@ const plans = [
     name: "無料",
     price: "¥0",
     period: "",
-    description: "招集の受信・応答はずっと無料",
+    description: "基本機能をすべて無料で",
     features: [
       "招集受信・応答（通常プッシュ通知）",
       "参集ダッシュボード閲覧",
@@ -454,14 +454,16 @@ const plans = [
       "水利マップ閲覧",
       "出動記録閲覧",
     ],
-    cta: "無料ではじめる",
+    cta: "アプリをダウンロード",
     highlighted: false,
+    subNote: "",
   },
   {
-    name: "個人プラン",
-    price: "¥980",
+    name: "NOROSHI Pro",
+    price: "¥1,000",
     period: "/月",
-    description: "自動架電で確実に届ける",
+    description: "架電・水利管理など全機能をアンロック",
+    subNote: "年額 ¥10,000（2ヶ月分お得）",
     features: [
       "無料プランの全機能",
       "招集発信・自動架電",
@@ -472,23 +474,8 @@ const plans = [
       "出動記録の作成・編集",
       "メンバー管理・招待",
     ],
-    cta: "有料プランをはじめる",
+    cta: "アプリをダウンロード",
     highlighted: true,
-  },
-  {
-    name: "団プラン",
-    price: "¥800",
-    period: "/人/月",
-    description: "所属メンバー全員の有料機能が有効になります",
-    subNote: "10人以上から契約可能",
-    features: [
-      "個人プランの全機能（価格差のみ）",
-      "所属メンバー全員が有料機能を利用可能",
-      "一括管理・招待",
-      "メールサポート",
-    ],
-    cta: "お問い合わせ",
-    highlighted: false,
   },
 ];
 
@@ -508,12 +495,12 @@ function PricingSection() {
               現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              必要に応じてアップグレード。
+              基本機能は無料。現場対応力を上げるならPro。
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-[720px] mx-auto">
           {plans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 0.1}>
               <div
@@ -561,11 +548,7 @@ function PricingSection() {
                       ? "btn-flame text-white"
                       : "border border-white/[0.08] text-[#A8A8A8] hover:bg-white/[0.04] hover:text-white"
                   }`}
-                  onClick={() => {
-                    if (plan.name === "団プラン" || plan.cta === "お問い合わせ") {
-                      window.location.href = "/contact";
-                    }
-                  }}
+                  onClick={() => {}}
                 >
                   {plan.cta}
                 </button>
