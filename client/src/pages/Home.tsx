@@ -25,6 +25,7 @@ import {
   Menu,
   X,
   Shield,
+  ArrowRight,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 
@@ -388,7 +389,7 @@ function FeaturesSection() {
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, i) => (
             <FadeIn key={feature.title} delay={i * 0.06}>
               <div className="group relative rounded-2xl border border-white/[0.06] bg-white/[0.02] overflow-hidden card-glow h-full">
@@ -532,7 +533,9 @@ function PricingSection() {
                     )}
                   </div>
                   <p className="text-[13px] text-[#666] mt-1.5">{plan.description}</p>
-
+                  {plan.subNote && (
+                    <p className="text-[12px] text-[#FF9F0A]/70 mt-1">{plan.subNote}</p>
+                  )}
                 </div>
 
                 <ul className="space-y-2 mb-6 flex-1">
@@ -633,53 +636,20 @@ function CTASection() {
       <div className="relative max-w-[1120px] mx-auto px-5 text-center">
         <FadeIn>
           <h2 className="section-heading text-[clamp(26px,5vw,44px)] mb-4">
-            あなたの分団を、
+            参集、水利管理、活動支援。
             <br className="sm:hidden" />
-            次の出動から変える。
+            すべてを、ひとつに。
           </h2>
           <p className="text-[15px] text-[#888] max-w-[420px] mx-auto mb-10">
-            招集、水利、活動支援。すべてを、ひとつに。
+            あなたの分団を、次の出動から変える。
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href={STORE_AVAILABLE ? APP_STORE_URL : X_URL}
-              target={STORE_AVAILABLE ? undefined : "_blank"}
-              rel={STORE_AVAILABLE ? undefined : "noopener noreferrer"}
-              className={`inline-flex items-center gap-3 w-[200px] px-5 py-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.1] transition-all duration-200 ${!STORE_AVAILABLE ? 'opacity-50' : ''}`}
-            >
-              <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current shrink-0">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
-              </svg>
-              <div className="text-left">
-                <div className="text-[10px] text-[#777] leading-tight">{STORE_AVAILABLE ? 'ダウンロード' : 'まもなく公開'}</div>
-                <div className="text-[15px] font-semibold text-white leading-tight">App Store</div>
-              </div>
-            </a>
-            <a
-              href={STORE_AVAILABLE ? GOOGLE_PLAY_URL : X_URL}
-              target={STORE_AVAILABLE ? undefined : "_blank"}
-              rel={STORE_AVAILABLE ? undefined : "noopener noreferrer"}
-              className={`inline-flex items-center gap-3 w-[200px] px-5 py-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.08] hover:border-white/[0.1] transition-all duration-200 ${!STORE_AVAILABLE ? 'opacity-50' : ''}`}
-            >
-              <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current shrink-0">
-                <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.199l2.302 1.33a1 1 0 010 1.724l-2.302 1.33-2.535-2.535 2.535-2.535v.686zm-3.906-3.906L4.864 12.14l10.928-6.538z"/>
-              </svg>
-              <div className="text-left">
-                <div className="text-[10px] text-[#777] leading-tight">{STORE_AVAILABLE ? 'ダウンロード' : 'まもなく公開'}</div>
-                <div className="text-[15px] font-semibold text-white leading-tight">Google Play</div>
-              </div>
-            </a>
-          </div>
-          {!STORE_AVAILABLE && (
-            <p className="text-[11px] text-[#444] mt-5">
-              まもなく公開予定
-            </p>
-          )}
-          {STORE_AVAILABLE && (
-            <p className="text-[11px] text-[#444] mt-5">
-              iOS / Android 対応
-            </p>
-          )}
+          <a
+            href="#pricing"
+            className="inline-flex items-center gap-2 px-8 py-4 text-[15px] font-semibold text-white rounded-xl btn-flame"
+          >
+            はじめる
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </FadeIn>
       </div>
     </section>
@@ -691,9 +661,9 @@ function Footer() {
   return (
     <footer className="border-t border-white/[0.04] py-10">
       <div className="max-w-[1120px] mx-auto px-5">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-8">
           {/* Brand */}
-          <div className="md:col-span-2">
+          <div className="col-span-2">
             <div className="flex items-center gap-2.5 mb-3">
               <img src={NOROSHI_LOGO} alt="NOROSHI" className="w-6 h-6 rounded-md" />
               <span className="text-[14px] font-bold tracking-[0.08em] text-white">
@@ -701,14 +671,33 @@ function Footer() {
               </span>
             </div>
             <p className="text-[13px] text-[#555] leading-relaxed max-w-[280px]">
-              消防団の参集・活動を支えるアプリ。
+              消防団向け参集・活動支援アプリ
             </p>
           </div>
 
-          {/* Links */}
+          {/* Product */}
           <div>
             <h4 className="text-[11px] font-semibold tracking-[0.12em] text-[#555] mb-3.5 uppercase">
-              法務
+              プロダクト
+            </h4>
+            <ul className="space-y-2.5">
+              <li>
+                <a href="#features" className="text-[13px] text-[#777] hover:text-white transition-colors duration-200">
+                  機能
+                </a>
+              </li>
+              <li>
+                <a href="#pricing" className="text-[13px] text-[#777] hover:text-white transition-colors duration-200">
+                  料金
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h4 className="text-[11px] font-semibold tracking-[0.12em] text-[#555] mb-3.5 uppercase">
+              法的情報
             </h4>
             <ul className="space-y-2.5">
               <li>
