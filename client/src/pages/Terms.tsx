@@ -46,12 +46,12 @@ export default function Terms() {
               <tr className="border-b border-white/[0.04]">
                 <td className="py-3 px-4">無料</td>
                 <td className="py-3 px-4">¥0</td>
-                <td className="py-3 px-4">招集の発信・受信・応答、参集ダッシュボード、位置情報共有、メンバー管理、水利閲覧</td>
+                <td className="py-3 px-4">招集受信・応答（プッシュ通知）、参集ダッシュボード閲覧、位置情報共有、水利マップ閲覧、出動記録閲覧</td>
               </tr>
               <tr className="border-b border-white/[0.04]">
                 <td className="py-3 px-4">NOROSHI Pro</td>
                 <td className="py-3 px-4">¥1,000/月（年額 ¥10,000）</td>
-                <td className="py-3 px-4">自動架電、緊急通知（マナーモード貫通）、エスカレーション通知、水利登録・編集・点検、台帳インポート・エクスポート、出動記録作成・編集、メンバー管理・招待</td>
+                <td className="py-3 px-4">招集発信・自動架電、エスカレーション通知、水利登録・編集・点検、台帳インポート・エクスポート、出動記録作成・編集、メンバー管理・招待</td>
               </tr>
             </tbody>
           </table>

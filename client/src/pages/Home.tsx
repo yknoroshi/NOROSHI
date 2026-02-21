@@ -19,13 +19,11 @@ import {
   ChevronRight,
   Smartphone,
   Check,
-  Shield,
   Lock,
   MapPinOff,
   Server,
   Menu,
   X,
-  TriangleAlert,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
@@ -310,23 +308,23 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大150人に同時架電。",
+      "応答があるまで最大4段階で自動架電。深夜の緊急出動でも、電話の着信音で確実に起こす。招集ボタンひとつで、最大150人に同時発信。",
     image: null,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
     icon: Bell,
-    title: "強制通知",
+    title: "エスカレーション通知",
     description:
-      "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
+      "プッシュ通知で応答がなければ自動で架電にエスカレーション。段階数・間隔・手段はカスタマイズ可能。あなたのスタイルに合わせた通知設定を。",
     image: IMG_FORCED_NOTIFY,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
     icon: Radio,
-    title: "参集状況",
+    title: "リアルタイム参集",
     description:
-      "誰が来るか、あと何人か。応答状況と位置情報がリアルタイムで共有される。参集中も活動中も、全員の動きが見える。",
+      "誰が応答し、誰が向かっているか。参集状況をリアルタイムで全員が把握できる。",
     image: IMG_MUSTERING,
     accent: "from-[#FF9F0A] to-[#FF453A]",
   },
@@ -334,15 +332,15 @@ const features = [
     icon: MapPin,
     title: "水利マップ",
     description:
-      "消火栓・防火水槽をピンポイントで登録。台帳をインポートすればマップに自動反映。データ出力にも対応。",
+      "GPS精度で水利を登録。隣の分団の水利情報も見える。全国の消防団員と水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
     image: IMG_SUIRI_MAP,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
   {
-    icon: TriangleAlert,
-    title: "ハザードマップ",
+    icon: FileText,
+    title: "ハザード情報",
     description:
-      "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
+      "政府公式の防災情報フィードをアプリに集約。洪水浸水想定区域・土砂災害警戒区域をマップにオーバーレイ表示。",
     image: null,
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
@@ -449,11 +447,11 @@ const plans = [
     name: "無料",
     price: "¥0",
     period: "",
-    description: "招集の受信・応答はずっと無料",
+    description: "基本機能をすべて無料で",
     features: [
-      "招集受信・応答（通常プッシュ通知）",
+      "招集受信・応答（プッシュ通知）",
       "参集ダッシュボード閲覧",
-      "位置情報閲覧",
+      "位置情報共有",
       "水利マップ閲覧",
       "出動記録閲覧",
     ],
@@ -461,37 +459,22 @@ const plans = [
     highlighted: false,
   },
   {
-    name: "個人プラン",
-    price: "¥980",
+    name: "NOROSHI Pro",
+    price: "¥1,000",
     period: "/月",
-    description: "自動架電で確実に届ける",
+    description: "全機能をアンロック",
+    subNote: "年額 ¥10,000",
     features: [
       "無料プランの全機能",
       "招集発信・自動架電",
-      "緊急通知（マナーモード貫通）",
       "エスカレーション通知設定",
       "水利の登録・編集・点検",
       "台帳インポート・エクスポート",
       "出動記録の作成・編集",
       "メンバー管理・招待",
     ],
-    cta: "有料プランをはじめる",
+    cta: "NOROSHI Proをはじめる",
     highlighted: true,
-  },
-  {
-    name: "団プラン",
-    price: "¥800",
-    period: "/人/月",
-    description: "所属メンバー全員の有料機能が有効になります",
-    subNote: "10人以上から契約可能",
-    features: [
-      "個人プランの全機能（価格差のみ）",
-      "所属メンバー全員が有料機能を利用可能",
-      "一括管理・招待",
-      "メールサポート",
-    ],
-    cta: "お問い合わせ",
-    highlighted: false,
   },
 ];
 
@@ -511,12 +494,12 @@ function PricingSection() {
               現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              必要に応じてアップグレード。
+              現場対応力を上げるならPro。
             </p>
           </div>
         </FadeIn>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-[960px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-[720px] mx-auto">
           {plans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 0.1}>
               <div
