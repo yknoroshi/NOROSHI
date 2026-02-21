@@ -495,7 +495,7 @@ function PricingSection() {
               必要な機能を、あなたの手に。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              基本機能は無料。現場対応力を上げるならPro。
+              現場対応力を上げるならPro。
             </p>
           </div>
         </FadeIn>
