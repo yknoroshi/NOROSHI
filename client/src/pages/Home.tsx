@@ -241,56 +241,36 @@ function HeroSection() {
           消防団の出動を、ひとつのアプリで変える。
         </motion.p>
 
-        {/* CTA hierarchy: Primary (X link) > Secondary (機能を見る) > Tertiary (Webで使う) */}
+        {/* CTA: Primary (ダウンロード) > Secondary (機能を見る) > Tertiary (WEB版) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
         >
-          {STORE_AVAILABLE ? (
-            <a
-              href="#pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
-            >
-              <Smartphone className="w-4 h-4" />
-              アプリをダウンロード
-            </a>
-          ) : (
-            <a
-              href={X_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
-            >
-              まもなく公開 — Xで最新情報を受け取る
-            </a>
-          )}
+          <a
+            href="#pricing"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-white rounded-xl"
+            style={{ background: "linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%)" }}
+          >
+            <Smartphone className="w-5 h-5" />
+            アプリをダウンロード
+          </a>
           <a
             href="#features"
-            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-[#FF6B35] rounded-xl border-2 border-[#FF6B35] bg-transparent hover:bg-[#FF6B35]/10 transition-all"
           >
             機能を見る
-            <ChevronRight className="w-4 h-4" />
           </a>
-        </motion.div>
-
-        {/* Tertiary: Web版テキストリンク */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.7, delay: 0.55 }}
-          className="mt-5"
-        >
           <button
             onClick={() => {
               toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
                 duration: 4000,
               });
             }}
-            className="text-[13px] text-[#666] hover:text-[#A8A8A8] transition-colors underline underline-offset-4 decoration-[#444]"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-[#1A1A1A] rounded-xl bg-white border-2 border-white hover:bg-white/90 transition-all"
           >
-            Web版で使う
+            WEB版で使う
           </button>
         </motion.div>
       </div>
