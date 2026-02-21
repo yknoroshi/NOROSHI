@@ -4,6 +4,12 @@
  * Palette: #0A0A0A bg, #E5E5E5 text, flame gradient (#FF453A → #FF9F0A) accent
  * Typography: system-ui + Noto Sans JP, tight letter-spacing on headings
  * Tone: Tactical × Professional — speak to the field, not the boardroom
+ *
+ * Button Style Guide:
+ *   Primary CTA:   btn-flame class (gradient #FF453A → #FF9F0A, white text)
+ *   Secondary CTA:  border border-white/[0.08] bg-white/[0.03] text-[#A8A8A8]
+ *   Tertiary:       text link with underline, text-[#666]
+ *   Disabled store: opacity-60 on store badges
  */
 
 import { useEffect, useRef, useState } from "react";
@@ -24,26 +30,32 @@ import {
   Menu,
   X,
   TriangleAlert,
+  Headset,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 
 /* ── Image paths (S3 permanent URLs) ── */
 const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
-// TODO: 以下の画像はアプリスクリーンショットに差し替え予定
-// const FEATURE_ALERT — 招集画面スクリーンショット
-// const FEATURE_MAP — 水利マップ画面スクリーンショット
-// const FEATURE_HAZARD — ハザード画面スクリーンショット
-const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg"; // TODO: ノードを大きく粗い画像に差し替え
 const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
+/* Feature card images — generated illustrations */
+const IMG_MUSTERING = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-1_1771679699000_na1fn_bm9yb3NoaS1tdXN0ZXJpbmctaGVybw.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTFfMTc3MTY3OTY5OTAwMF9uYTFmbl9ibTl5YjNOb2FTMXRkWE4wWlhKcGJtY3RhR1Z5YncucG5nP3gtb3NzLXByb2Nlc3M9aW1hZ2UvcmVzaXplLHdfMTkyMCxoXzE5MjAvZm9ybWF0LHdlYnAvcXVhbGl0eSxxXzgwIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzk4NzYxNjAwfX19XX0_&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=UXtQ7aIVoqKvTF9hClHzgPrTszTRoe~-ogTmL7ox7SvYf89JfA6RFtt6N16bSnnMgaDNesPjpUDI76y8ssBsTrPmDuesGS7oE4Req0u1aZrX3LzTpkVTBUJontQT4rux3v2J-ietCNOAQLGWnMl4tt6LfQdQdBZ3zmwazDG8HLfN~C74wA-BzbA8TVYyW7UFIbgEJDExVSd48lfF~zP7e8FgZgsZsTRbYe5I5nvd6f69ETzfnaqf1PCxQhF8Lmu2u3alp9vtlVskEqb1ll7hSuI8iQSRMPIFZB-THmQ2gLPoB-rpnDl08SFVnA18vinbsmSizc0cWZB~rQN1F5s0XA__";
+const IMG_SUIRI_MAP = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-2_1771679703000_na1fn_bm9yb3NoaS1zdWlyaS1tYXAtamFwYW4.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTJfMTc3MTY3OTcwMzAwMF9uYTFmbl9ibTl5YjNOb2FTMXpkV2x5YVMxdFlYQXRhbUZ3WVc0LnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=C~6awhfrOAkGNM-MJns12zUPSrUcVIaegrz6ifLSXB4XxG20JFFChgJPb4zd-vakjwVSZYbji6eWuY2NJx7ACv3nmfbiUCw-rHXv~Ovb~qovSmVMEzE26mkH-iyPyvzPeQx-jxq2LRr5HKCelYM7QyPaSXKjH72WuLXXbVnFa1pdwtoiqJD3CcUymy7fEkb1EABmby6PsFN2vykvpXJWdp7qs2YFUVnbhpmdCosyhYhqwEABo32OeolZrtzcz8O0dIX8-zgcq-a6-AgtTdT8YWXLzdL95NHQkEvYARxnmBQD7VOPSJ4Fa1BbJQMYZfiH~hmufB3NonjiUiQ6dFE2kg__";
+const IMG_ACTIVITY_RECORD = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-3_1771679696000_na1fn_bm9yb3NoaS1hY3Rpdml0eS1yZWNvcmQ.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTNfMTc3MTY3OTY5NjAwMF9uYTFmbl9ibTl5YjNOb2FTMWhZM1JwZG1sMGVTMXlaV052Y21RLnBuZz94LW9zcy1wcm9jZXNzPWltYWdlL3Jlc2l6ZSx3XzE5MjAsaF8xOTIwL2Zvcm1hdCx3ZWJwL3F1YWxpdHkscV84MCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=AGIngnoOgW9qBBR3S8qZcNvcttcNxy9QsL-HHiPi84DMMzxTGuISEyVDcOWERUBA2KmgboqHlnBDSFmUFLam1lAWHdf2SnMaXeMoQ26lDFKwXmaSt9cj2a9L514RY-WYjLGLen2xkWak~ko7JAjRDsQX0VLmxKMEmdP2PYfgvIoEylEPrxlgUBe5-0ZNLHECvAh6Kd4QQ70c0Ln51OkT-6Tm1-r1ws1aILiutC2vjxTWkRFz9mYRdDT2Xa9PW03HSt78grvbfiw6mp8wh~93PgBEo~BfSSDhY2wJfzZ92sFbpTRpQVajRbjdCmGUIgFS32UxuKDsErwwrmzE8OsaVQ__";
+const IMG_ACTIVITY_SUPPORT = "https://private-us-east-1.manuscdn.com/sessionFile/khG9oGVTKW3WUf87BX7KZu/sandbox/VWOWMPx0s0jCCVW95aMTEt-img-4_1771679701000_na1fn_bm9yb3NoaS1hY3Rpdml0eS1zdXBwb3J0.png?x-oss-process=image/resize,w_1920,h_1920/format,webp/quality,q_80&Expires=1798761600&Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUva2hHOW9HVlRLVzNXVWY4N0JYN0tadS9zYW5kYm94L1ZXT1dNUHgwczBqQ0NWVzk1YU1URXQtaW1nLTRfMTc3MTY3OTcwMTAwMF9uYTFmbl9ibTl5YjNOb2FTMWhZM1JwZG1sMGVTMXpkWEJ3YjNKMC5wbmc-eC1vc3MtcHJvY2Vzcz1pbWFnZS9yZXNpemUsd18xOTIwLGhfMTkyMC9mb3JtYXQsd2VicC9xdWFsaXR5LHFfODAiLCJDb25kaXRpb24iOnsiRGF0ZUxlc3NUaGFuIjp7IkFXUzpFcG9jaFRpbWUiOjE3OTg3NjE2MDB9fX1dfQ__&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=UAH0wIJbfkGGmSV6uD4YUvVm~KCh3zYApaztR2X3gn8BySrMO7SE8jsoH2mK1MGYndlVsnOIloqGL~8R21A3kZDy593IQArv49VgsxQ~SgpbvfvcdW5nZErUWrqWQuyNVYUViGtdRet7R0DKn7Tml7vvdJxriCdBmiV9lT2TQeUw7tyYDhAIMYwqJG3X-cLVvRr5Yf9~gU7uJ603BZQyZGKphzLGUDSacZqYNo9zh5v8G6UX1vo7w9E10Sh7Dwm13li7HCaghqWxUhMex3jjUj9rGk5hMnpvsKec-cRE95bND6HKKy58ki0ZB~hiu-fFF5rqWvr3S-a91I0jnd2aJQ__";
+
+/* Feature card images — real screenshots (to be provided by user) */
+const IMG_AUTO_CALL = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg"; // 自動架電スクリーンショット
+const IMG_HAZARD = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/vabCSfkrRlmUoFbu.jpg"; // ハザード情報スクリーンショット
+
 /* ── Store URLs (公開後に差し替え) ── */
-const APP_STORE_URL = "#"; // TODO: App Store公開後にURLを設定
-const GOOGLE_PLAY_URL = "#"; // TODO: Google Play公開後にURLを設定
-const STORE_AVAILABLE = false; // true に変更するとバッジが有効化される
+const APP_STORE_URL = "#";
+const GOOGLE_PLAY_URL = "#";
+const STORE_AVAILABLE = false;
 
 /* ── X (Twitter) URL ── */
-const X_URL = "https://x.com/noroshi_app"; // TODO: 公式Xアカウント公開後にURLを設定
+const X_URL = "https://x.com/noroshi_app";
 
 /* ── Fade-in animation wrapper ── */
 function FadeIn({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -192,7 +204,7 @@ function Header() {
 /* ── Hero Section ── */
 function HeroSection() {
   return (
-    <section className="relative min-h-[85vh] flex items-start justify-center overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -204,7 +216,7 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/60 via-[#0A0A0A]/40 to-[#0A0A0A]" />
       </div>
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-5 pt-28 pb-16 text-center">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-5 pt-32 pb-24 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -234,43 +246,63 @@ function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-7"
+          className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-10"
         >
           招集から現場活動まで。
           <br className="hidden sm:block" />
           消防団の出動を、ひとつのアプリで変える。
         </motion.p>
 
-        {/* CTA: Primary (ダウンロード) > Secondary (機能を見る) > Tertiary (WEB版) */}
+        {/* CTA hierarchy: Primary (btn-flame) > Secondary (ghost border) > Tertiary (text link) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <a
-            href="#pricing"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-white rounded-xl"
-            style={{ background: "linear-gradient(135deg, #FF6B35 0%, #FF8E53 100%)" }}
-          >
-            <Smartphone className="w-5 h-5" />
-            アプリをダウンロード
-          </a>
+          {STORE_AVAILABLE ? (
+            <a
+              href="#pricing"
+              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
+            >
+              <Smartphone className="w-4 h-4" />
+              アプリをダウンロード
+            </a>
+          ) : (
+            <a
+              href={X_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
+            >
+              まもなく公開 — Xで最新情報を受け取る
+            </a>
+          )}
           <a
             href="#features"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-[#FF6B35] rounded-xl border-2 border-[#FF6B35] bg-transparent hover:bg-[#FF6B35]/10 transition-all"
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium text-[#A8A8A8] rounded-xl border border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06] hover:text-white transition-all"
           >
             機能を見る
+            <ChevronRight className="w-4 h-4" />
           </a>
+        </motion.div>
+
+        {/* Tertiary: Web版テキストリンク */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.55 }}
+          className="mt-5"
+        >
           <button
             onClick={() => {
               toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
                 duration: 4000,
               });
             }}
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 text-[18px] font-semibold text-[#1A1A1A] rounded-xl bg-white border-2 border-white hover:bg-white/90 transition-all"
+            className="text-[13px] text-[#666] hover:text-[#A8A8A8] transition-colors underline underline-offset-4 decoration-[#444]"
           >
-            WEB版で使う
+            Web版で使う
           </button>
         </motion.div>
       </div>
@@ -288,7 +320,7 @@ const features = [
     title: "自動架電",
     description:
       "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大30人に同時架電。",
-    image: null, // TODO: アプリの招集画面スクリーンショットに差し替え
+    image: IMG_AUTO_CALL,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -296,7 +328,7 @@ const features = [
     title: "強制通知",
     description:
       "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
-    image: null, // TODO: 通知画面イメージに差し替え
+    image: IMG_ACTIVITY_SUPPORT,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -304,7 +336,7 @@ const features = [
     title: "参集状況",
     description:
       "誰が来るか、あと何人か。応答状況と位置情報がリアルタイムで共有される。参集中も活動中も、全員の動きが見える。",
-    image: FEATURE_REALTIME, // TODO: ノードをもう少し大きく粗い画像に差し替え
+    image: IMG_MUSTERING,
     accent: "from-[#FF9F0A] to-[#FF453A]",
   },
   {
@@ -312,7 +344,7 @@ const features = [
     title: "水利マップ",
     description:
       "消火栓・防火水槽をピンポイントで登録。台帳をインポートすればマップに自動反映。データ出力にも対応。",
-    image: null, // TODO: アプリの水利マップ画面スクリーンショットに差し替え
+    image: IMG_SUIRI_MAP,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
   {
@@ -320,7 +352,7 @@ const features = [
     title: "ハザード情報",
     description:
       "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
-    image: null, // TODO: アプリのハザード画面スクリーンショットに差し替え
+    image: IMG_HAZARD,
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
   {
@@ -328,14 +360,14 @@ const features = [
     title: "出動記録",
     description:
       "招集から自動で出動記録を生成。種別・場所・参加者が自動入力。",
-    image: null,
+    image: IMG_ACTIVITY_RECORD,
     accent: "from-[#A8A8A8] to-[#666666]",
   },
 ];
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-14 relative">
+    <section id="features" className="py-20 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-14">
@@ -359,9 +391,9 @@ function FeaturesSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
           {features.map((feature, i) => (
             <FadeIn key={feature.title} delay={i * 0.08}>
-              <div className="group relative rounded-2xl border border-white/[0.06] bg-[#111111] overflow-hidden card-glow">
+              <div className="group relative rounded-2xl border border-white/[0.06] bg-[#111111] overflow-hidden card-glow h-full">
                 {feature.image && (
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-48 lg:h-52 overflow-hidden">
                     <img
                       src={feature.image}
                       alt={feature.title}
@@ -396,7 +428,7 @@ function FeaturesSection() {
 /* ── Stats Section ── */
 function StatsSection() {
   return (
-    <section className="py-12 border-y border-white/[0.04]">
+    <section className="py-16 border-y border-white/[0.04]">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -427,6 +459,7 @@ const plans = [
     price: "¥0",
     period: "",
     description: "基本機能をすべて無料で",
+    subNote: "",
     features: [
       "招集受信・応答（通常プッシュ通知）",
       "参集ダッシュボード閲覧",
@@ -436,7 +469,6 @@ const plans = [
     ],
     cta: "アプリをダウンロード",
     highlighted: false,
-    subNote: "",
   },
   {
     name: "NOROSHI Pro",
@@ -461,7 +493,7 @@ const plans = [
 
 function PricingSection() {
   return (
-    <section id="pricing" className="py-14 relative">
+    <section id="pricing" className="py-20 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-14">
@@ -508,7 +540,7 @@ function PricingSection() {
                     )}
                   </div>
                   <p className="text-[13px] text-[#666] mt-2">{plan.description}</p>
-                  {"subNote" in plan && plan.subNote && (
+                  {plan.subNote && (
                     <p className="text-[12px] text-[#FF9F0A] mt-1">{plan.subNote}</p>
                   )}
                 </div>
@@ -568,7 +600,7 @@ function SecuritySection() {
   ];
 
   return (
-    <section className="py-14 relative">
+    <section className="py-16 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-12">
@@ -609,7 +641,7 @@ function SecuritySection() {
 /* ── CTA Section ── */
 function CTASection() {
   return (
-    <section className="py-16 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FF453A]/[0.03] to-transparent" />
       <div className="relative max-w-[1200px] mx-auto px-5 text-center">
         <FadeIn>
