@@ -15,7 +15,7 @@ type InquiryType = "general" | "team" | "bug" | "other";
 
 const inquiryTypes: { value: InquiryType; label: string }[] = [
   { value: "general", label: "一般的なお問い合わせ" },
-  { value: "team", label: "団プランについて" },
+  { value: "team", label: "導入・契約について" },
   { value: "bug", label: "不具合の報告" },
   { value: "other", label: "その他" },
 ];
@@ -79,7 +79,7 @@ export default function Contact() {
             <p className="text-[15px] text-[#888] mb-10 leading-relaxed">
               ご質問・ご要望・不具合の報告など、お気軽にお問い合わせください。
               <br />
-              団プランの導入相談も承ります。
+              導入のご相談も承ります。
             </p>
           </motion.div>
 

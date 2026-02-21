@@ -21,14 +21,12 @@ import {
   Smartphone,
   Check,
   Lock,
-  MapPinOff,
   Server,
   Menu,
   X,
-  TriangleAlert,
+  Shield,
 } from "lucide-react";
 import { AnimatePresence } from "framer-motion";
-import { toast } from "sonner";
 
 /* ── Image paths (S3 permanent URLs) ── */
 const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
@@ -271,7 +269,7 @@ function HeroSection() {
           transition={{ duration: 0.7, delay: 0.1, ease: EASE_OUT }}
           className="text-[clamp(38px,8vw,76px)] font-extrabold leading-[1.05] tracking-[-0.04em] text-white mb-6"
         >
-          架電で、
+          自動架電で、
           <br />
           <span className="text-flame-gradient">絶対起こす。</span>
         </motion.h1>
@@ -284,7 +282,7 @@ function HeroSection() {
         >
           招集から現場活動まで。
           <br className="hidden sm:block" />
-          消防団の出動を、ひとつのアプリで変える。
+          消防団の活動を支えるアプリ。
         </motion.p>
 
         {/* CTA buttons */}
@@ -294,24 +292,19 @@ function HeroSection() {
           transition={{ duration: 0.6, delay: 0.35, ease: EASE_OUT }}
           className="flex flex-col sm:flex-row items-center justify-center gap-3.5"
         >
-          {STORE_AVAILABLE ? (
-            <a
-              href="#pricing"
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
-            >
-              <Smartphone className="w-4 h-4" />
-              アプリをダウンロード
-            </a>
-          ) : (
-            <a
-              href={X_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
-            >
-              まもなく公開 — Xで最新情報を受け取る
-            </a>
-          )}
+          <a
+            href="#pricing"
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
+          >
+            <Smartphone className="w-4 h-4" />
+            アプリをダウンロード
+          </a>
+          <a
+            href="/app/login"
+            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-ghost"
+          >
+            Webで使う
+          </a>
           <a
             href="#features"
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium rounded-xl btn-ghost"
@@ -319,25 +312,6 @@ function HeroSection() {
             機能を見る
             <ChevronRight className="w-4 h-4" />
           </a>
-        </motion.div>
-
-        {/* Tertiary: Web版テキストリンク */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-5"
-        >
-          <button
-            onClick={() => {
-              toast("Web版は現在準備中です。アプリ版を先行リリース予定です。", {
-                duration: 4000,
-              });
-            }}
-            className="text-[13px] text-[#555] hover:text-[#A8A8A8] transition-colors duration-200 underline underline-offset-4 decoration-[#333]"
-          >
-            Web版で使う
-          </button>
         </motion.div>
       </div>
 
@@ -353,23 +327,23 @@ const features = [
     icon: Phone,
     title: "自動架電",
     description:
-      "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大150人に同時架電。",
+      "招集ボタンひとつで、応答があるまで最大30人に自動で電話。プッシュ通知と架電を組み合わせ、最大4段階で確実に届ける。",
     image: null as string | null,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
     icon: Bell,
-    title: "強制通知",
+    title: "エスカレーション通知",
     description:
-      "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
+      "プッシュ通知で応答がなければ自動で架電にエスカレーション。段階数・間隔・手段はカスタマイズ可能。あなたのスタイルに合わせた通知設定を。",
     image: IMG_FORCED_NOTIFY as string | null,
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
     icon: Radio,
-    title: "参集状況",
+    title: "情報共有",
     description:
-      "誰が来るか、あと何人か。応答状況と位置情報がリアルタイムで共有される。参集中も活動中も、全員の動きが見える。",
+      "誰が来るか、どこにいるか。参集から活動終了まで共有。林野火災や山岳事案の対応にも活用。",
     image: IMG_MUSTERING as string | null,
     accent: "from-[#FF9F0A] to-[#FF453A]",
   },
@@ -377,15 +351,15 @@ const features = [
     icon: MapPin,
     title: "水利マップ",
     description:
-      "消火栓・防火水槽をピンポイントで登録。台帳をインポートすればマップに自動反映。データ出力にも対応。",
+      "GPS精度で水利を登録。隣の分団の水利情報も見える。全国の消防団員と水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
     image: IMG_SUIRI_MAP as string | null,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
   {
-    icon: TriangleAlert,
-    title: "ハザードマップ",
+    icon: FileText,
+    title: "ハザード情報",
     description:
-      "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
+      "政府公式の防災情報フィードをアプリに集約。洪水浸水想定区域・土砂災害警戒区域をマップにオーバーレイ表示。",
     image: null as string | null,
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
@@ -409,13 +383,8 @@ function FeaturesSection() {
               機能
             </span>
             <h2 className="section-heading text-[clamp(26px,4vw,40px)] mb-4">
-              サイレンが鳴った。あなたの分団は何人集まる？
+              深夜の火災、あなたの分団は何人集まる？
             </h2>
-            <p className="text-[15px] text-[#666] max-w-[480px] mx-auto leading-relaxed">
-              深夜の火災で、あなたの分団は何人集まる？
-              <br />
-              NOROSHIは、その答えを変えるために作られた。
-            </p>
           </div>
         </FadeIn>
 
@@ -465,7 +434,7 @@ function StatsSection() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { value: "4段階", label: "エスカレーション通知" },
-              { value: "最大150人", label: "同時架電対応" },
+              { value: "1回最大30人", label: "同時架電対応" },
               { value: "3D地図", label: "航空写真と地形データで現場判断を支援" },
               { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
@@ -489,11 +458,11 @@ const plans = [
     name: "無料",
     price: "¥0",
     period: "",
-    description: "招集の受信・応答はずっと無料",
+    description: "基本機能をすべて無料で",
     features: [
-      "招集受信・応答（通常プッシュ通知）",
+      "招集受信・応答（プッシュ通知）",
       "参集ダッシュボード閲覧",
-      "位置情報閲覧",
+      "位置情報共有",
       "水利マップ閲覧",
       "出動記録閲覧",
     ],
@@ -504,17 +473,18 @@ const plans = [
     name: "NOROSHI Pro",
     price: "¥1,000",
     period: "/月",
-    description: "年額 ¥10,000（2ヶ月分おトク）",
+    description: "全機能をアンロック",
+    subNote: "年額 ¥10,000",
     features: [
       "無料プランの全機能",
       "招集発信・自動架電",
-      "エスカレーション通知",
+      "エスカレーション通知設定",
       "水利の登録・編集・点検",
       "台帳インポート・エクスポート",
       "出動記録の作成・編集",
       "メンバー管理・招待",
     ],
-    cta: "有料プランをはじめる",
+    cta: "NOROSHI Proをはじめる",
     highlighted: true,
   },
 ];
@@ -529,11 +499,8 @@ function PricingSection() {
               料金
             </span>
             <h2 className="section-heading text-[clamp(26px,4vw,40px)] mb-3">
-              現場で使える道具に、正当な対価を。
+              現場に必要な機能をあなたの手に。
             </h2>
-            <p className="text-[15px] text-[#666]">
-              必要に応じてアップグレード。
-            </p>
           </div>
         </FadeIn>
 
@@ -606,19 +573,19 @@ function PricingSection() {
 function SecuritySection() {
   const items = [
     {
+      icon: Shield,
+      title: "行レベルセキュリティ",
+      description: "データは自治体単位で完全に分離。他の自治体のデータにはアクセスできない設計。",
+    },
+    {
       icon: Server,
-      title: "国内サーバー",
-      description: "データは東京リージョンのサーバーに保存されています。",
+      title: "データ管理",
+      description: "すべてのデータは東京リージョンの日本国内サーバーに保存。海外へのデータ転送なし。",
     },
     {
       icon: Lock,
-      title: "電話番号の保護",
-      description: "電話番号の公開範囲を設定可能。分団内のみ共有、または団全体で共有を選択できます。",
-    },
-    {
-      icon: MapPinOff,
-      title: "位置情報の制御",
-      description: "位置情報は招集時のみ共有。平時は送信されません。",
+      title: "プライバシーの確保",
+      description: "位置情報の共有は出動応答時のみ。電話番号の公開範囲も自分で設定可能。デフォルトは非公開。",
     },
   ];
 
