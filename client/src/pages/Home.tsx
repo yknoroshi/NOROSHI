@@ -18,7 +18,6 @@ import {
   ChevronRight,
   Smartphone,
   Check,
-  Shield,
   Lock,
   MapPinOff,
   Server,
@@ -31,10 +30,11 @@ import { toast } from "sonner";
 
 /* ── Image paths (S3 permanent URLs) ── */
 const HERO_BG = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/ExCJGtidgoyxyuZS.jpg";
-const FEATURE_ALERT = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/yGexdjatLTgmkIif.jpg";
-const FEATURE_MAP = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/sGFRtPDJZGfnfaFm.jpg";
-const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg";
-const FEATURE_HAZARD = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/vabCSfkrRlmUoFbu.jpg";
+// TODO: 以下の画像はアプリスクリーンショットに差し替え予定
+// const FEATURE_ALERT — 招集画面スクリーンショット
+// const FEATURE_MAP — 水利マップ画面スクリーンショット
+// const FEATURE_HAZARD — ハザード画面スクリーンショット
+const FEATURE_REALTIME = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/eVJxpBZQMHalJyow.jpg"; // TODO: ノードを大きく粗い画像に差し替え
 const NOROSHI_LOGO = "https://files.manuscdn.com/user_upload_by_module/session_file/310519663250854362/evYsEPHmdLSUaZki.png";
 
 /* ── Store URLs (公開後に差し替え) ── */
@@ -192,7 +192,7 @@ function Header() {
 /* ── Hero Section ── */
 function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[85vh] flex items-start justify-center overflow-hidden">
       {/* Background image */}
       <div className="absolute inset-0">
         <img
@@ -204,7 +204,7 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A]/60 via-[#0A0A0A]/40 to-[#0A0A0A]" />
       </div>
 
-      <div className="relative z-10 max-w-[1200px] mx-auto px-5 pt-32 pb-24 text-center">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-5 pt-28 pb-16 text-center">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -234,7 +234,7 @@ function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-10"
+          className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-7"
         >
           招集から現場活動まで。
           <br className="hidden sm:block" />
@@ -308,7 +308,7 @@ const features = [
     title: "自動架電",
     description:
       "応答があるまで最大4回自動で電話。強制通知と組み合わせて、確実に届ける。招集ボタン一つで、最大30人に同時架電。",
-    image: FEATURE_ALERT,
+    image: null, // TODO: アプリの招集画面スクリーンショットに差し替え
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -316,7 +316,7 @@ const features = [
     title: "強制通知",
     description:
       "地震速報やJアラートのように、端末の音量設定を無視して最大音量で通知。通常のプッシュ通知と強制通知を招集の種別に応じて使い分け可能。",
-    image: null,
+    image: null, // TODO: 通知画面イメージに差し替え
     accent: "from-[#FF453A] to-[#FF9F0A]",
   },
   {
@@ -324,7 +324,7 @@ const features = [
     title: "参集状況",
     description:
       "誰が来るか、あと何人か。応答状況と位置情報がリアルタイムで共有される。参集中も活動中も、全員の動きが見える。",
-    image: FEATURE_REALTIME,
+    image: FEATURE_REALTIME, // TODO: ノードをもう少し大きく粗い画像に差し替え
     accent: "from-[#FF9F0A] to-[#FF453A]",
   },
   {
@@ -332,15 +332,15 @@ const features = [
     title: "水利マップ",
     description:
       "消火栓・防火水槽をピンポイントで登録。台帳をインポートすればマップに自動反映。データ出力にも対応。",
-    image: FEATURE_MAP,
+    image: null, // TODO: アプリの水利マップ画面スクリーンショットに差し替え
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
   {
     icon: TriangleAlert,
-    title: "ハザードマップ",
+    title: "ハザード情報",
     description:
       "土砂災害・浸水・津波のハザード情報を地図上に表示。出動時の危険箇所を事前に把握し、安全な活動を支援。",
-    image: FEATURE_HAZARD,
+    image: null, // TODO: アプリのハザード画面スクリーンショットに差し替え
     accent: "from-[#FF6B6B] to-[#EE5A24]",
   },
   {
@@ -355,7 +355,7 @@ const features = [
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-20 relative">
+    <section id="features" className="py-14 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-14">
@@ -416,7 +416,7 @@ function FeaturesSection() {
 /* ── Stats Section ── */
 function StatsSection() {
   return (
-    <section className="py-16 border-y border-white/[0.04]">
+    <section className="py-12 border-y border-white/[0.04]">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
@@ -481,7 +481,7 @@ const plans = [
 
 function PricingSection() {
   return (
-    <section id="pricing" className="py-20 relative">
+    <section id="pricing" className="py-14 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-14">
@@ -492,7 +492,7 @@ function PricingSection() {
               className="text-[clamp(28px,4vw,44px)] font-bold tracking-[-0.025em] text-white mb-4"
               style={{ fontFamily: "'Noto Sans JP', system-ui, sans-serif" }}
             >
-              現場で使える道具に、正当な対価を。
+              必要な機能を、あなたの手に。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
               基本機能は無料。現場対応力を上げるならPro。
@@ -573,7 +573,7 @@ function SecuritySection() {
     {
       icon: Server,
       title: "国内サーバー",
-      description: "データは東京リージョンのサーバーに保存されています。",
+      description: "すべてのデータは東京リージョンのサーバーで管理。通信はTLS暗号化、データベースは行レベルセキュリティでアクセスを厳密に制御しています。",
     },
     {
       icon: Lock,
@@ -588,7 +588,7 @@ function SecuritySection() {
   ];
 
   return (
-    <section className="py-16 relative">
+    <section className="py-14 relative">
       <div className="max-w-[1200px] mx-auto px-5">
         <FadeIn>
           <div className="text-center mb-12">
@@ -629,7 +629,7 @@ function SecuritySection() {
 /* ── CTA Section ── */
 function CTASection() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-16 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#FF453A]/[0.03] to-transparent" />
       <div className="relative max-w-[1200px] mx-auto px-5 text-center">
         <FadeIn>
@@ -642,7 +642,7 @@ function CTASection() {
             次の出動から変える。
           </h2>
           <p className="text-[16px] text-[#888] max-w-[480px] mx-auto mb-10">
-            招集、水利、活動支援。すべてを、ひとつに。
+            参集、水利管理、活動支援。すべてを、ひとつに。
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
             <a
