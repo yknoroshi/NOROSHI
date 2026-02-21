@@ -8,7 +8,7 @@
  * ⚠️ DESIGN-ONLY CHANGES — All text content preserved exactly as-is
  */
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Link } from "wouter";
 import { motion, useInView } from "framer-motion";
 import {
@@ -108,6 +108,37 @@ function AnimatedNumber({ value, suffix = "" }: { value: string; suffix?: string
   );
 }
 
+/* ── Scroll to Pro card helper ── */
+function scrollToProCard(e: React.MouseEvent) {
+  e.preventDefault();
+  const el = document.getElementById("pricing-pro");
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+}
+
+/* ── Scroll progress bar ── */
+function ScrollProgress() {
+  const [progress, setProgress] = useState(0);
+  useEffect(() => {
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(docHeight > 0 ? (scrollTop / docHeight) * 100 : 0);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  return (
+    <div className="fixed top-0 left-0 right-0 z-[60] h-[2px]">
+      <div
+        className="h-full bg-gradient-to-r from-[#FF453A] to-[#FF9F0A] transition-[width] duration-150 ease-out"
+        style={{ width: `${progress}%` }}
+      />
+    </div>
+  );
+}
+
 /* ── Header ── */
 function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -169,7 +200,8 @@ function Header() {
 
           <div className="flex items-center gap-3">
             <a
-              href="#pricing"
+              href="#pricing-pro"
+              onClick={scrollToProCard}
               className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 text-[13px] font-semibold text-white rounded-lg btn-flame"
             >
               はじめる
@@ -220,8 +252,8 @@ function Header() {
                 );
               })}
               <a
-                href="#pricing"
-                onClick={() => setMobileOpen(false)}
+                href="#pricing-pro"
+                onClick={(e) => { setMobileOpen(false); scrollToProCard(e); }}
                 className="mt-6 inline-flex items-center gap-2 px-8 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
               >
                 はじめる
@@ -509,6 +541,7 @@ function PricingSection() {
           {plans.map((plan, i) => (
             <FadeIn key={plan.name} delay={i * 0.08}>
               <div
+                id={plan.highlighted ? "pricing-pro" : undefined}
                 className={`relative rounded-2xl border p-6 flex flex-col h-full ${
                   plan.highlighted
                     ? "border-[#FF453A]/25 bg-gradient-to-b from-[#FF453A]/[0.04] to-white/[0.02] ring-1 ring-[#FF453A]/10"
@@ -644,7 +677,8 @@ function CTASection() {
             あなたの分団を、次の出動から変える。
           </p>
           <a
-            href="#pricing"
+            href="#pricing-pro"
+            onClick={scrollToProCard}
             className="inline-flex items-center gap-2 px-8 py-4 text-[15px] font-semibold text-white rounded-xl btn-flame"
           >
             はじめる
@@ -758,6 +792,7 @@ function Footer() {
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#0A0A0A]">
+      <ScrollProgress />
       <Header />
       <HeroSection />
       <FeaturesSection />
