@@ -18,6 +18,7 @@ import {
   FileText,
   Bell,
   ChevronRight,
+  ChevronDown,
   Smartphone,
   Check,
   Lock,
@@ -326,7 +327,8 @@ function HeroSection() {
           className="flex flex-col sm:flex-row items-center justify-center gap-3.5"
         >
           <a
-            href="#pricing"
+            href="#pricing-pro"
+            onClick={scrollToProCard}
             className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-semibold text-white rounded-xl btn-flame"
           >
             <Smartphone className="w-4 h-4" />
@@ -340,10 +342,15 @@ function HeroSection() {
           </a>
           <a
             href="#features"
-            className="inline-flex items-center gap-2 px-7 py-3.5 text-[15px] font-medium rounded-xl btn-ghost"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById("features");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="inline-flex items-center gap-2 text-[15px] font-medium text-[#A8A8A8] hover:text-white transition-colors duration-300"
           >
             機能を見る
-            <ChevronRight className="w-4 h-4" />
+            <ChevronDown className="w-4 h-4 animate-bounce" />
           </a>
         </motion.div>
       </div>
