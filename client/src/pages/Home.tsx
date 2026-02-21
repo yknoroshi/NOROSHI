@@ -583,9 +583,7 @@ function PricingSection() {
                       ? "btn-flame text-white"
                       : "btn-ghost"
                   }`}
-                  onClick={() => {
-                    // placeholder
-                  }}
+                  onClick={() => {}}
                 >
                   {plan.cta}
                 </button>
