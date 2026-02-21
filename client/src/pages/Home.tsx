@@ -236,9 +236,9 @@ function HeroSection() {
           transition={{ duration: 0.7, delay: 0.25, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-[clamp(15px,2vw,18px)] text-[#A8A8A8] leading-relaxed max-w-[540px] mx-auto mb-10"
         >
-          深夜3時のLINE、誰も見てない。
+          招集から現場活動まで。
           <br className="hidden sm:block" />
-          NOROSHIは架電で全員を叩き起こす。
+          消防団の出動を、ひとつのアプリで変える。
         </motion.p>
 
         {/* CTA hierarchy: Primary (X link) > Secondary (機能を見る) > Tertiary (Webで使う) */}
@@ -331,7 +331,7 @@ const features = [
     icon: MapPin,
     title: "水利マップ",
     description:
-      "消火栓・防火水槽をピンポイントで登録。隣の分団の水利も見える。全国の消防団員で水利ネットワークを構築。台帳のインポート・エクスポートにも対応。",
+      "消火栓・防火水槽をピンポイントで登録。台帳をインポートすればマップに自動反映。データ出力にも対応。",
     image: FEATURE_MAP,
     accent: "from-[#32ADE6] to-[#0A84FF]",
   },
@@ -369,6 +369,8 @@ function FeaturesSection() {
               サイレンが鳴った。あなたの分団は何人集まる？
             </h2>
             <p className="text-[16px] text-[#666] max-w-[520px] mx-auto">
+              深夜の火災で、あなたの分団は何人集まる？
+              <br />
               NOROSHIは、その答えを変えるために作られた。
             </p>
           </div>
@@ -419,9 +421,9 @@ function StatsSection() {
         <FadeIn>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { value: "4段階", label: "応答があるまで、通知＋架電をエスカレーション" },
-              { value: "150人", label: "ボタンひとつで、最大150人に同時架電" },
-              { value: "10秒", label: "ボタンを押してから全員の電話が鳴るまで" },
+              { value: "4段階", label: "エスカレーション通知" },
+              { value: "最大150人", label: "同時架電対応" },
+              { value: "3D地図", label: "航空写真と地形データで現場判断を支援" },
               { value: "全国共有", label: "水利データは自治体を超えて全消防団員で共有" },
             ].map((stat) => (
               <div key={stat.value}>
@@ -446,44 +448,43 @@ const plans = [
     period: "",
     description: "招集の受信・応答はずっと無料",
     features: [
-      "招集の発信・受信・応答（プッシュ通知）",
-      "参集状況共有",
-      "位置情報共有・閲覧",
-      "メンバー管理・招待",
-      "水利閲覧",
-      "連絡送受信",
+      "招集受信・応答（通常プッシュ通知）",
+      "参集ダッシュボード閲覧",
+      "位置情報閲覧",
+      "水利マップ閲覧",
+      "出動記録閲覧",
     ],
     cta: "無料ではじめる",
     highlighted: false,
   },
   {
-    name: "個人Pro",
-    price: "¥650",
+    name: "個人プラン",
+    price: "¥980",
     period: "/月",
     description: "自動架電で確実に届ける",
     features: [
       "無料プランの全機能",
-      "自動架電（最大4回エスカレーション）",
+      "招集発信・自動架電",
       "緊急通知（マナーモード貫通）",
       "エスカレーション通知設定",
       "水利の登録・編集・点検",
       "台帳インポート・エクスポート",
-      "出動記録の作成・編集・閲覧",
+      "出動記録の作成・編集",
+      "メンバー管理・招待",
     ],
-    cta: "Proをはじめる",
+    cta: "有料プランをはじめる",
     highlighted: true,
   },
   {
     name: "団プラン",
-    price: "¥980",
+    price: "¥800",
     period: "/人/月",
-    description: "所属メンバー全員のPro機能が有効になります",
+    description: "所属メンバー全員の有料機能が有効になります",
     subNote: "10人以上から契約可能",
     features: [
-      "個人Proの全機能",
-      "所属メンバー全員がPro機能を利用可能",
+      "個人プランの全機能（価格差のみ）",
+      "所属メンバー全員が有料機能を利用可能",
       "一括管理・招待",
-      "台帳インポート・エクスポート",
       "メールサポート",
     ],
     cta: "お問い合わせ",
@@ -507,7 +508,7 @@ function PricingSection() {
               現場で使える道具に、正当な対価を。
             </h2>
             <p className="text-[16px] text-[#666] max-w-[480px] mx-auto">
-              受ける側は無料。必要に応じてアップグレード。
+              必要に応じてアップグレード。
             </p>
           </div>
         </FadeIn>
@@ -561,7 +562,7 @@ function PricingSection() {
                       : "border border-white/[0.08] text-[#A8A8A8] hover:bg-white/[0.04] hover:text-white"
                   }`}
                   onClick={() => {
-                    if (plan.name === "団プラン") {
+                    if (plan.name === "団プラン" || plan.cta === "お問い合わせ") {
                       window.location.href = "/contact";
                     }
                   }}
@@ -588,17 +589,17 @@ function SecuritySection() {
   const items = [
     {
       icon: Server,
-      title: "東京リージョン保存",
-      description: "データは東京リージョンのサーバーに保存。国内で完結。",
+      title: "国内サーバー",
+      description: "データは東京リージョンのサーバーに保存されています。",
     },
     {
       icon: Lock,
-      title: "電話番号は誰にも見えない",
+      title: "電話番号の保護",
       description: "電話番号の公開範囲を設定可能。分団内のみ共有、または団全体で共有を選択できます。",
     },
     {
       icon: MapPinOff,
-      title: "位置情報は招集時だけ",
+      title: "位置情報の制御",
       description: "位置情報は招集時のみ共有。平時は送信されません。",
     },
   ];
